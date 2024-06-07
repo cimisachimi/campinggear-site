@@ -1,11 +1,14 @@
 import React from "react";
-import Hero from "../components/Hero";
+import Breadcrumb from "../components/Breadcrumb";
+import ProductList from "../components/Productlist";
 import Popular from "../components/Popular";
 
 const Home = () => {
   return (
     <div>
-      <Hero />
+      <h1>This is Home Page</h1>
+      <Breadcrumb />
+      <ProductList />
       <Popular />
     </div>
   );

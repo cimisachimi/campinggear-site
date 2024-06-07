@@ -33,13 +33,16 @@ const Header = () => {
           </Link>
 
           {/* Login / Sign up button */}
-          <div class="inline-flex items-center h-full ml-5 lg:w-2/5 lg:justify-end lg:ml-0 ">
-            <a href="./Login.jsx" class="mr-5 font-medium hover:text-gray-900">
+          <div className="inline-flex items-center h-full ml-5 lg:w-2/5 lg:justify-end lg:ml-0 ">
+            <a
+              href="./Login.jsx"
+              className="mr-5 font-medium hover:text-gray-900"
+            >
               Login
             </a>
             <a
               href="#_"
-              class="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+              className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
             >
               Sign Up
             </a>
