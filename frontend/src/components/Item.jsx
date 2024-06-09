@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 const Item = ({ id, name, image, old_price, new_price }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-      <Link to={`product/${id}`}>
-        <img className="w-full h-90 object-cover" src={image} alt={name} />
+      {/* Link untuk Product Berdasarkan ID */}
+      <Link to={`/product/${id}`}>
+        <img
+          className="w-full h-90 object-cover"
+          src={image}
+          alt="productImage"
+        />
       </Link>
       <div className="p-4">
         <h2 className="text-lg font-semibold mb-2">{name}</h2>

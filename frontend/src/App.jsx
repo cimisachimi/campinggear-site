@@ -11,12 +11,12 @@ import Cart from "./pages/Cart";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Popular from "./components/Popular";
 
 // Assets
 import bannerswomens from "./assets/bannerwomens.png";
 import bannermens from "./assets/bannermens.png";
 import bannerkids from "./assets/bannerkids.png";
+import SignUp from "./pages/Signup.jsx";
 
 export default function App() {
   return (
@@ -31,7 +31,7 @@ export default function App() {
           {/* Categories */}
           <Route
             path="/new-product"
-            element={<Category category={"mens"} banner={bannermens} />}
+            element={<Category category={"men"} banner={bannermens} />}
           />
           <Route
             path="/outdoor-gear"
@@ -39,13 +39,15 @@ export default function App() {
           />
           <Route
             path="/wear"
-            element={<Category category={"kids"} banner={bannerkids} />}
+            element={<Category category={"kid"} banner={bannerkids} />}
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />
+
           <Route path=":productId" element={<Product />}></Route>
           {/* Login */}
           <Route path="/login" element={<Login />} />
+          <Route path="/Signup" element={<SignUp />} />
           <Route path="/" element={<Cart />} />
         </Routes>
         {/* Tampilan Footer */}
