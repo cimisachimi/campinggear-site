@@ -34,18 +34,15 @@ const Header = () => {
 
           {/* Login / Sign up button */}
           <div className="inline-flex items-center h-full ml-5 lg:w-2/5 lg:justify-end lg:ml-0 ">
-            <a
-              href="./Login.jsx"
-              className="mr-5 font-medium hover:text-gray-900"
-            >
+            <Link to="/login" className="mr-5 font-medium hover:text-gray-900">
               Login
-            </a>
-            <a
-              href="#_"
+            </Link>
+            <Link
+              to="/signup"
               className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
             >
               Sign Up
-            </a>
+            </Link>
           </div>
 
           {/* Profile Avatar and Name 

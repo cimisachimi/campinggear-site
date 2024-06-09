@@ -25,28 +25,27 @@ export default function App() {
         {/* Tampilan Header dan Navbar */}
         <Header />
         <Navbar />
-        <Popular />
         {/* Route ke page lain  */}
         <Routes>
           <Route path="/" element={<Home />} />
           {/* Categories */}
           <Route
-            path="/mens"
+            path="/new-product"
             element={<Category category={"mens"} banner={bannermens} />}
           />
           <Route
-            path="/womens"
+            path="/outdoor-gear"
             element={<Category category={"women"} banner={bannerswomens} />}
           />
           <Route
-            path="/kids"
+            path="/wear"
             element={<Category category={"kids"} banner={bannerkids} />}
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />
           <Route path=":productId" element={<Product />}></Route>
           {/* Login */}
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Cart />} />
         </Routes>
         {/* Tampilan Footer */}
