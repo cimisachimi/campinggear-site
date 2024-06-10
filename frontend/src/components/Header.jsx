@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import logo from "../assets/logo/logo.png";
 
@@ -29,7 +28,11 @@ const Header = () => {
             to="/"
             className="flex items-center order-first mb-4 font-medium text-gray-900 lg:order-none lg:w-1/5 title-font lg:items-center lg:justify-center md:mb-0"
           >
-            <img src={logo} alt="Logo" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-auto max-h-14 md:max-h-16 lg:max-h-20"
+            />
           </Link>
 
           {/* Login / Sign up button */}
@@ -45,8 +48,9 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Profile Avatar and Name 
-          <div className="inline-flex items-center h-full ml-5 lg:w-2/5 lg:justify-end lg:ml-0">
+          {/* Profile Avatar and Name */}
+          {/* Displaying profile avatar and name on larger screens */}
+          {/* <div className="hidden lg:inline-flex items-center h-full ml-5 lg:w-2/5 lg:justify-end lg:ml-0">
             <Link to="/profilePage">
               <div className="flex items-center space-x-4">
                 <img
@@ -57,8 +61,7 @@ const Header = () => {
                 <span className="font-medium text-gray-900">John Doe</span>
               </div>
             </Link>
-          </div>
-          */}
+          </div> */}
         </div>
       </header>
     </div>

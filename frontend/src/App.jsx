@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // HomePage Option
@@ -43,8 +44,9 @@ export default function App() {
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />
-
-          <Route path=":productId" element={<Product />}></Route>
+          {/* Product */}
+          <Route path="/product/:id" element={<Product />} /> // ensure this
+          line is correct
           {/* Login */}
           <Route path="/login" element={<Login />} />
           <Route path="/Signup" element={<SignUp />} />

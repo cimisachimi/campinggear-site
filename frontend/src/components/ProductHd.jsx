@@ -1,13 +1,7 @@
-import { TbArrowRight } from "react-icons/tb";
-
-const ProductHeader = (props) => {
+const ProductHd = (props) => {
   const { product } = props;
 
-  return (
-    <div>
-      Home Shop {product.category} {product.name}
-    </div>
-  );
+  return <div>Shop {product.name} </div>;
 };
 
-export default ProductHeader;
+export default ProductHd;
