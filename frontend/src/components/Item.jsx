@@ -6,7 +6,7 @@ const Item = ({ id, name, image, old_price, new_price }) => {
     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Link untuk Product Berdasarkan ID */}
       <Link to={`/product/${id}`}>
-        <img
+        <img onClick={window.scrollTo(0, 0)}
           className="w-full h-90 object-cover"
           src={image}
           alt="productImage"

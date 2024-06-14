@@ -22,6 +22,7 @@ export default {
       },
     },
     screen: {
+      xs: "360px",
       sm: "480px",
       md: "768px",
       lg: "1080px",
@@ -30,6 +31,14 @@ export default {
     countainer: {
       center: true,
     },
+
+    maxWidth: {
+        '10xl': '1512px',
+      },
+      borderRadius: {
+        '5xl': '40px',
+      },
+
   },
   plugins: [],
 };

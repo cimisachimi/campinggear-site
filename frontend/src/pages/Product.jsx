@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 import ProductHd from "../components/ProductHd";
 import ProductDisplay from "../components/ProductDisplay";
+import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   const { all_products } = useContext(ShopContext);
@@ -17,8 +18,9 @@ const Product = () => {
 
   return (
     <section>
-      <ProductHd product={product} />
+      {/* <ProductHd product={product} /> */}
       <ProductDisplay product={product} />
+      <RelatedProducts />
     </section>
   );
 };
