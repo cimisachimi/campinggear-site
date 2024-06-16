@@ -49,8 +49,8 @@ export default function App() {
           line is correct
           {/* Login */}
           <Route path="/login" element={<Login />} />
-          <Route path="/Signup" element={<SignUp />} />
-          <Route path="/" element={<Cart />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         {/* Tampilan Footer */}
         <Footer />
