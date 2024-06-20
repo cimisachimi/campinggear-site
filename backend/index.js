@@ -15,7 +15,7 @@ mongoose.connect(
   "mongodb+srv://chimi:chimi123@cluster0.pyaff9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 );
 
-// Penyimpanan gambar ecommerse
+// Penyimpanan gambar Engine dengan Multer
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
@@ -56,7 +56,7 @@ const Product = mongoose.model("Product", {
     type: String,
     required: true,
   },
-  categoty: {
+  category: {
     type: String,
     required: true,
   },
@@ -78,16 +78,83 @@ const Product = mongoose.model("Product", {
   },
 });
 
-//
+//Tambah Product baru
 app.post("/addproduct", async (req, res) => {
-  const product = new Product({
-    id: req.body.id,
-    name: req.body.name,
-    image: req.body.image,
-    category: req.body.category,
-    new_price: req.body.new_price,
-    old_price: req.body.old_price,
-  });
+  try {
+    let products = await Product.find({});
+    let id;
+    if (products.length > 0) {
+      let last_product = products[products.length - 1];
+      id = last_product.id + 1;
+    } else {
+      id = 1;
+    }
+
+    const product = new Product({
+      id: id,
+      name: req.body.name,
+      image: req.body.image,
+      category: req.body.category,
+      new_price: req.body.new_price,
+      old_price: req.body.old_price,
+    });
+    console.log(product);
+
+    await product.save();
+    console.log("Saved");
+
+    res.json({
+      success: true,
+      name: req.body.name,
+    });
+  } catch (error) {
+    console.error("Error saving product:", error);
+    res.status(500).json({ success: false, error: "Failed to save product" });
+  }
+});
+
+// Baca Semua Product
+
+app.get("/allproducts", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json({
+      success: true,
+      products: products,
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch products",
+    });
+  }
+});
+
+// Delete product endpoint
+app.post("/removeproduct", async (req, res) => {
+  try {
+    const result = await Product.findOneAndDelete({ id: req.body.id });
+    if (result) {
+      console.log("Product deleted successfully");
+      res.json({
+        success: true,
+        message: "Product deleted successfully",
+      });
+    } else {
+      console.log("Product not found");
+      res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete product",
+    });
+  }
 });
 
 app.listen(port, (error) => {
