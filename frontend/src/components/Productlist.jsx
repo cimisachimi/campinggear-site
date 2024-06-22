@@ -1,33 +1,31 @@
 import React from "react";
+import LATEST from "../assets/latest";
+import Item from "./Item"
 
-const ProductList = ({ title }) => {
+
+const ProductList = () => {
   return (
-    <div className="py-8">
-      <div className="py-4 text-center">
-        <h1 className="text-3xl font-bold">{title}</h1>
-      </div>
-      <div className="container grid grid-cols-1 gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
-        {/* Replace these placeholders with actual product data */}
-        <div className="max-w-sm mx-auto bg-white rounded-lg shadow-lg">
-          <img
-            className="w-full h-48 object-cover"
-            src=".\src\assets\product\tent1.jpg"
-            alt="Product 1"
+    <section className="py-8">
+    <div className="container mx-auto px-4">
+      <h3 className="text-3xl font-bold text-center mb-8">
+       New Arrival
+      </h3>
+      <hr className="mb-8" />
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {LATEST.map((item) => (
+          <Item
+            key={item.id}
+            id={item.id}
+            image={item.image}
+            name={item.name}
+            old_price={item.old_price}
+            new_price={item.new_price}
           />
-          <div className="px-6 py-4">
-            <h2 className="text-lg font-semibold">Product 1</h2>
-            <p className="text-gray-600">Description of product 1.</p>
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-xl font-bold">$99.99</span>
-              <button className="px-3 py-1 bg-gray-800 text-white rounded">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* Add more product cards similarly */}
+        ))}
       </div>
     </div>
+  </section>
   );
 };
 

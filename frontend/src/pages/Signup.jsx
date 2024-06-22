@@ -125,11 +125,11 @@ const SignUp = () => {
                 <span className="text-white">
                   I accept the
                   <a href="#" className="font-semibold text-darkGreen">
-                    Terms of Use
+                     Terms of Use
                   </a>
-                  &
+                   &
                   <a href="#" className="font-semibold text-darkGreen">
-                    Privacy Policy
+                     Privacy Policy
                   </a>
                 </span>
               </div>

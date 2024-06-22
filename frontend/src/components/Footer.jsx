@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/logo/logo.png";
 
 const Footer = () => {
   return (
@@ -6,7 +7,7 @@ const Footer = () => {
       <div className="container flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
         <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
           <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
-            <img src="/assets/logo/logo.png" alt="Logo" />
+            <img src={logo} alt="Logo" />
           </a>
           <p className="mt-2 text-sm text-gray-500">Design, Code and Ship!</p>
           <div className="mt-4">

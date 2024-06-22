@@ -19,6 +19,7 @@ export default {
       },
       backgroundImage: {
         Hero: "url('assets/banner1.jpg')",
+        Heri: "url('assets/banner2.jpg')",
       },
     },
     screen: {
