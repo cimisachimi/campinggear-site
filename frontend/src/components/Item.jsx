@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Item = ({ id, name, image, old_price, new_price }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="bg-white shadow-lg overflow-hidden rounded-lg">
       {/* Link untuk Product Berdasarkan ID */}
       <Link to={`/product/${id}`}>
         <img onClick={window.scrollTo(0, 0)}

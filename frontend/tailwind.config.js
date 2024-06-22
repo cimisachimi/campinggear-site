@@ -7,6 +7,8 @@ export default {
   ],
 
   theme: {
+
+    
     extend: {
       colors: {
         creamBase: "hsl(40, 53%, 93%)",
@@ -19,6 +21,7 @@ export default {
       },
       backgroundImage: {
         Hero: "url('assets/banner1.jpg')",
+        Heri: "url('assets/banner2.jpg')",
       },
     },
     screen: {
@@ -36,7 +39,14 @@ export default {
         '10xl': '1512px',
       },
       borderRadius: {
-        '5xl': '40px',
+        'none': '0',
+        'sm': '0.125rem',
+        DEFAULT: '0.25rem',
+        DEFAULT: '4px',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'full': '9999px',
+        'large': '12px',
       },
 
   },

@@ -13,8 +13,8 @@ const ProductDisplay = (props) => {
 
   return (
     <section>
-      <div className="flex flex-col xl:flex-row gap-x-8 gap-14 mt-5 sm:m-4 md:m-4 xl:m-4 xs:m-4">
-        <div className="flex flex-col gap-[7px] flex-wrap  ">
+      <div className="flex flex-col xl:flex-row gap-x-8 gap-14 mt-5 sm:m-4 md:m-4 xl:m-4 xs:m-4 rounded-lg">
+        <div className="flex flex-col gap-[7px] flex-wrap   ">
           <img
             src={product.image}
             className="w-full bg-cover h-3/5"
