@@ -1,7 +1,7 @@
 const ProductHd = (props) => {
   const { product } = props;
 
-  return <div>Shop {product.name} </div>;
+  return <div> home  Shop {product.name} </div>;
   
 };
 

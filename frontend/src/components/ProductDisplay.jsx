@@ -95,7 +95,7 @@ const ProductDisplay = (props) => {
               <button onClick={() => addToCart(product.id)}>ADD TO CART</button>
             </div>
             {/* buy button */}
-            <div className="btn_dark_outline !rounded-none uppercase regular-14 tracking-widest text-center">
+            <div className="btn_dark_outline !rounded-none uppercase regular-14 tracking-widest text-center ">
               <button>BUY NOW</button>
             </div>
           </div>
@@ -115,116 +115,7 @@ const ProductDisplay = (props) => {
           </div>
         </div>
 
-        {/* <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <h1 className="text-3xl uppercase mb-2">{product.name}</h1>
-          <div className="flex items-center mb-4">
-            <div className="flex gap-1 text-sm text-yellow-400">4.5</div>
-            <div className="text-xs text-gray-500 ml-3">(150 Reviews)</div>
-          </div>
-         
-
-          {/* Color Filter */}
-        {/* <div className="pt-4">
-            <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-              Color
-            </h3>
-            <div className="flex items-center gap-2">
-              <div className="color-selector">
-                <input
-                  type="radio"
-                  name="color"
-                  className="hidden"
-                  id="color_red"
-                />
-                <label
-                  htmlFor="color_red"
-                  className="border border-gray-200 rounded-sm h-5 w-5 cursor-pointer shadow-sm block"
-                  style={{ backgroundColor: "red" }}
-                ></label>
-              </div>
-              <div className="color-selector">
-                <input
-                  type="radio"
-                  name="color"
-                  className="hidden"
-                  id="color_white"
-                />
-                <label
-                  htmlFor="color_white"
-                  className="border border-gray-200 rounded-sm h-5 w-5 cursor-pointer shadow-sm block"
-                  style={{ backgroundColor: "white" }}
-                ></label>
-              </div>
-              <div className="color-selector">
-                <input
-                  type="radio"
-                  name="color"
-                  className="hidden"
-                  id="color_black"
-                />
-                <label
-                  htmlFor="color_black"
-                  className="border border-gray-200 rounded-sm h-5 w-5 cursor-pointer shadow-sm block"
-                  style={{ backgroundColor: "black" }}
-                ></label>
-              </div>
-            </div>
-          </div> */}
-
-        {/* Quantity */}
-        {/* <div className="mt-4">
-            <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
-            <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-              <div
-                className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-                onClick={decreaseQuantity}
-              >
-                -
-              </div>
-              <div
-                id="quantityDisplay"
-                className="h-8 w-8 text-base flex items-center justify-center"
-              >
-                {quantity}
-              </div>
-              <div
-                className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-                onClick={increaseQuantity}
-              >
-                +
-              </div>
-            </div>
-          </div> */}
-
-        {/* Cart Button */}
-        {/* <div className="flex gap-3 border-b border-gray-200 pb-5 mt-6">
-            <a
-              href="checkOutPage.html"
-              className="bg-gray-200 border border-primary text-black px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-gray-300 hover:text-darkCream"
-            >
-              Add to cart
-            </a>
-            <a
-              href="checkOutPage.html"
-              className="bg-gray-200 border border-primary text-black px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-gray-300 hover:text-darkCream"
-            >
-              Buy now
-            </a>
-          </div>
-
-          <h2 className="text-xl font-medium mt-6">Description</h2>
-          <p className="text-gray-600 mt-2">
-            Setelah seharian menjelajahi alam, dapatkan istirahat yang nyaman
-            dengan tenda Novus Guardian 8P. Luas, berdaya tahan kuat, dan
-            memiliki ketahanan air yang baik, tenda berkapasitas delapan orang
-            dari EIGER Mountaineering ini sangat mudah untuk dipasang. Tenda ini
-            dirancang dengan dua akses masuk utama, dua ruang tidur, serta area
-            vestibule yang luas untuk menyimpan barang bawaanmu dan tim. Hadir
-            dengan tas jinjing untuk mengemas tenda membuatmu dapat membawa
-            tenda ini dengan ringkas ke mana pun kamu bertualang.
-          </p>
-          <h1 className="font-bold">Rp 2.500.000,00</h1>
-        </div> */}
+        
       </div>
     </section>
   );
