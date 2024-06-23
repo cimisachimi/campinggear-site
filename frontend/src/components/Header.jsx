@@ -38,7 +38,7 @@ const Header = ({ cartItemCount }) => {
         {/* Right Section - Login/Signup and Cart */}
         <div className="flex items-center">
           {/* Login / Sign up button */}
-          <div className="flex items-center mr-5">
+          <div className="flex items-center mr-5 rounded-5xl">
             <Link to="/login" className="mr-5 font-medium hover:text-gray-900">
               Login
             </Link>

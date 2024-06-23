@@ -2,7 +2,6 @@ const port = 4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
@@ -19,7 +18,7 @@ mongoose.connect(
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
-    return cb(
+    cb(
       null,
       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
     );
@@ -78,17 +77,11 @@ const Product = mongoose.model("Product", {
   },
 });
 
-//Tambah Product baru
+// Tambah Product baru
 app.post("/addproduct", async (req, res) => {
   try {
     let products = await Product.find({});
-    let id;
-    if (products.length > 0) {
-      let last_product = products[products.length - 1];
-      id = last_product.id + 1;
-    } else {
-      id = 1;
-    }
+    let id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
 
     const product = new Product({
       id: id,
@@ -98,10 +91,8 @@ app.post("/addproduct", async (req, res) => {
       new_price: req.body.new_price,
       old_price: req.body.old_price,
     });
-    console.log(product);
 
     await product.save();
-    console.log("Saved");
 
     res.json({
       success: true,
@@ -114,7 +105,6 @@ app.post("/addproduct", async (req, res) => {
 });
 
 // Baca Semua Product
-
 app.get("/allproducts", async (req, res) => {
   try {
     const products = await Product.find({});
@@ -136,13 +126,11 @@ app.post("/removeproduct", async (req, res) => {
   try {
     const result = await Product.findOneAndDelete({ id: req.body.id });
     if (result) {
-      console.log("Product deleted successfully");
       res.json({
         success: true,
         message: "Product deleted successfully",
       });
     } else {
-      console.log("Product not found");
       res.status(404).json({
         success: false,
         message: "Product not found",

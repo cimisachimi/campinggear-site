@@ -22,7 +22,7 @@ const Cart = () => {
     // Find the product by itemId in all_products
     const product = all_products.find((prod) => prod.id === parseInt(itemId));
     if (product) {
-      return acc + product.price * cartItems[itemId];
+      return acc + product.new_price * cartItems[itemId];
     }
     return acc;
   }, 0);
@@ -84,7 +84,7 @@ const Cart = () => {
                         </span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <p className="text-sm">{product.price} ₭</p>
+                        <p className="text-sm">{product.new_price} ₭</p>
                         <svg
                           onClick={() => removeFromCart(itemId)}
                           xmlns="http://www.w3.org/2000/svg"

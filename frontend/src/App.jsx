@@ -45,8 +45,7 @@ export default function App() {
           {/* Product */}
           <Route path="/product" element={<Product />} />
           {/* Product */}
-          <Route path="/product/:id" element={<Product />} /> // ensure this
-          line is correct
+          <Route path="/product/:id" element={<Product />} />
           {/* Login */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
