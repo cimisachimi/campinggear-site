@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,10 +17,32 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    try {
+      const response = await fetch("http://localhost:4000/signup", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const responseData = await response.json();
+      if (responseData.success) {
+        localStorage.setItem("auth-token", responseData.token);
+        window.location.replace("/");
+      } else {
+        alert(responseData.errors);
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      alert("Signup failed, please try again.");
+    }
   };
 
   return (
@@ -63,25 +84,17 @@ const SignUp = () => {
           <div className="w-full px-12 py-16 lg:w-1/2 bg-darkCream">
             <h2 className="mb-4 text-3xl font-bold text-white">Register</h2>
             <p className="mb-4 text-white">
-              Create your account. It’s free and only take a minute
+              Create your account. It’s free and only takes a minute
             </p>
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-2 gap-5">
+              <div className="mt-5">
                 <input
                   type="text"
-                  name="firstName"
-                  placeholder="Firstname"
-                  value={formData.firstName}
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
                   onChange={handleChange}
-                  className="px-2 py-1 border border-gray-400 rounded-md"
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  placeholder="Lastname"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="px-2 py-1 border border-gray-400 rounded-md"
+                  className="w-full px-2 py-1 border border-gray-400 rounded-md"
                 />
               </div>
               <div className="mt-5">
@@ -125,11 +138,11 @@ const SignUp = () => {
                 <span className="text-white">
                   I accept the
                   <a href="#" className="font-semibold text-darkGreen">
-                     Terms of Use
+                    Terms of Use
                   </a>
-                   &
+                  &
                   <a href="#" className="font-semibold text-darkGreen">
-                     Privacy Policy
+                    Privacy Policy
                   </a>
                 </span>
               </div>
