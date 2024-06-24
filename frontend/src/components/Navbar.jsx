@@ -17,7 +17,7 @@ const Navbar = () => {
           <NavLink
             to="/new-product"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4"
+              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             New Product
@@ -25,7 +25,7 @@ const Navbar = () => {
           <NavLink
             to="/outdoor-gear"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4"
+              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             Outdoor Gear
@@ -33,7 +33,7 @@ const Navbar = () => {
           <div className="relative">
             {/* Dropdown trigger */}
             <button
-              className="text-gray-800 hover:text-gray-800 focus:outline-none mx-4"
+              className="text-gray-800 hover:text-slate-400 focus:outline-none mx-4 "
               onClick={toggleDropdown}
             >
               Accessories
@@ -77,7 +77,7 @@ const Navbar = () => {
           <NavLink
             to="/wear"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4"
+              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             Wear
@@ -85,7 +85,7 @@ const Navbar = () => {
           <NavLink
             to="/sale"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4"
+              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4  hover:text-slate-400"
             }
           >
             Sale
