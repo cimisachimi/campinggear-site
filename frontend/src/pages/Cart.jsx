@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 
 const Cart = () => {
-  const { all_products, cartItems, removeFromCart } = useContext(ShopContext);
+  const { all_products, cartItems, removeFromCart, getTotalCartAmount} = useContext(ShopContext);
 
   const updateQuantity = (itemId, increment) => {
     // Ensure quantity doesn't go below 0
@@ -112,7 +112,7 @@ const Cart = () => {
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">${subtotal.toFixed(3)}</p>
+            <p className="text-gray-700">${getTotalCartAmount()}</p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Shipping</p>
