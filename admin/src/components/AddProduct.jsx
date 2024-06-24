@@ -2,12 +2,17 @@ import React, { useState, useRef } from "react";
 import upload_place from "../assets/uploadimage.svg";
 
 const AddProduct = () => {
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileInputRef = useRef(null);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const fileInputRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   const [productDetails, setProductDetails] = useState({
     name: "",
-    image: "",
+    images: [], // Changed from image to images (array)
     category: "",
     new_price: "",
     old_price: "",
@@ -23,14 +28,23 @@ const AddProduct = () => {
     let responseData;
     let product = { ...productDetails };
 
-    const fileInput = fileInputRef.current;
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-      alert("Please select an image to upload.");
+    // Collect all selected files from input refs
+    const selectedFiles = fileInputRefs.reduce((files, ref) => {
+      if (ref.current && ref.current.files.length > 0) {
+        files.push(ref.current.files[0]);
+      }
+      return files;
+    }, []);
+
+    if (selectedFiles.length === 0) {
+      alert("Please select at least one image to upload.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("product", fileInput.files[0]);
+    selectedFiles.forEach((file) => {
+      formData.append("product", file);
+    });
 
     try {
       const response = await fetch("http://localhost:4000/upload", {
@@ -41,7 +55,7 @@ const AddProduct = () => {
       responseData = await response.json();
 
       if (responseData.success) {
-        product.image = responseData.image_url;
+        product.images = responseData.image_urls;
 
         const productResponse = await fetch(
           "http://localhost:4000/addproduct",
@@ -60,38 +74,47 @@ const AddProduct = () => {
           alert("Product added successfully!");
           setProductDetails({
             name: "",
-            image: "",
+            images: [],
             category: "",
             new_price: "",
             old_price: "",
           });
-          setImagePreview(null);
+          setImagePreviews([]);
+          // Clear all file inputs after successful submission
+          fileInputRefs.forEach((ref) => {
+            if (ref.current) {
+              ref.current.value = "";
+            }
+          });
         } else {
           alert("Failed to add product. Please try again.");
         }
       } else {
-        alert("Failed to upload image. Please try again.");
+        alert("Failed to upload images. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error uploading image. Please try again.");
+      alert("Error uploading images. Please try again.");
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (index, e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        const previews = [...imagePreviews];
+        previews[index] = reader.result;
+        setImagePreviews(previews);
+
+        const updatedImages = [...productDetails.images];
+        updatedImages[index] = file;
         setProductDetails((prevDetails) => ({
           ...prevDetails,
-          image: file,
+          images: updatedImages,
         }));
       };
       reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
     }
   };
 
@@ -147,7 +170,7 @@ const AddProduct = () => {
               className="bg-creamBase outline-none w-full py-3 px-4 rounded-md"
             >
               <option value="">Pilih Kategori</option>
-              <option value="electronics">Tenda</option>
+              <option value="Tenda">Tenda</option>
               <option value="fashion">Baju</option>
               <option value="grocery">Peralatan</option>
               <option value="home">Home</option>
@@ -155,34 +178,44 @@ const AddProduct = () => {
             </select>
           </div>
           <div className="mb-3">
-            <input
-              type="file"
-              name="image"
-              id="file-input"
-              onChange={handleImageChange}
-              ref={fileInputRef}
-            />
             <h4 className="bold-18 pb-2">Upload Gambar:</h4>
-            <div className="flex items-center">
-              {!imagePreview ? (
-                <>
-                  <label htmlFor="file-input" className="mr-2 cursor-pointer">
+            <div className="flex flex-wrap gap-4">
+              {imagePreviews.map((preview, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="w-20 h-20 object-cover rounded-sm"
+                  />
+                </div>
+              ))}
+              {fileInputRefs.map((fileInputRef, index) => (
+                <div key={index} className="flex flex-col items-center">
+                  <label
+                    htmlFor={`file-input-${index}`}
+                    className="mb-1 cursor-pointer"
+                  >
                     <img
                       src={upload_place}
                       alt="Upload"
                       className="w-20 rounded-sm"
                     />
                   </label>
-                </>
-              ) : (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-20 h-20 object-cover rounded-sm"
+                  <input
+                    type="file"
+                    id={`file-input-${index}`}
+                    onChange={(e) => handleImageChange(index, e)}
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    accept="image/*"
                   />
+                  <span>
+                    {productDetails.images[index]
+                      ? productDetails.images[index].name
+                      : "Pilih Gambar"}
+                  </span>
                 </div>
-              )}
+              ))}
             </div>
           </div>
           <button

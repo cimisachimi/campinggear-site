@@ -33,10 +33,16 @@ const upload = multer({ storage: storage });
 
 // Serve static images
 app.use("/images", express.static("upload/images"));
-app.post("/upload", upload.single("product"), (req, res) => {
+
+// Endpoint to handle multiple file uploads
+app.post("/upload", upload.array("product", 10), (req, res) => {
+  // Adjust the limit (10) as needed
+  const imageUrls = req.files.map(
+    (file) => `http://localhost:${port}/images/${file.filename}`
+  );
   res.json({
     success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+    image_urls: imageUrls,
   });
 });
 
@@ -55,8 +61,8 @@ const Product = mongoose.model("Product", {
     type: String,
     required: true,
   },
-  image: {
-    type: String,
+  images: {
+    type: [String], // Array of image URLs
     required: true,
   },
   category: {
@@ -90,7 +96,7 @@ app.post("/addproduct", async (req, res) => {
     const product = new Product({
       id: id,
       name: req.body.name,
-      image: req.body.image,
+      images: req.body.images, // Array of image URLs
       category: req.body.category,
       new_price: req.body.new_price,
       old_price: req.body.old_price,
@@ -224,6 +230,96 @@ app.post("/login", async (req, res) => {
     }
   } else {
     res.json({ success: false, errors: "Wrong Email Adress" });
+  }
+});
+
+// Mengambil data newcollection dari database
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
+  let newcollection = products.slice(1).slice(-8);
+  console.log("Newcollection fecthed");
+  res.send(newcollection);
+});
+
+// Mengambil data popularProduct dari database
+app.get("/popularproducts", async (req, res) => {
+  let products = await Product.find({ category: "Tenda" });
+  let popularproducts = products.slice(0, 4);
+
+  res.send(popularproducts);
+});
+
+//mendapat user
+const fetchUser = async (req, res, next) => {
+  const token = req.header("auth-token");
+  if (!token) {
+    res.status(401).send({ errors: "Please autheticate using valid login" });
+  } else {
+    try {
+      const data = jwt.verify(token, "secret_ecom");
+      req.user = data.user;
+      next();
+    } catch (error) {
+      res
+        .status(401)
+        .send({ errors: "please autheticate using a valid token" });
+    }
+  }
+}; // Add product to cart
+app.post("/addtocart", fetchUser, async (req, res) => {
+  try {
+    let userData = await User.findOne({ _id: req.user.id });
+    if (userData) {
+      const { itemId } = req.body;
+      const quantity = userData.cartData[itemId] || 0;
+      userData.cartData[itemId] = quantity + 1;
+      await userData.save();
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ success: false, message: "Failed to add to cart" });
+  }
+});
+
+// Remove product from cart
+app.post("/removefromcart", fetchUser, async (req, res) => {
+  try {
+    let userData = await User.findOne({ _id: req.user.id });
+    if (userData) {
+      const { itemId } = req.body;
+      if (userData.cartData[itemId] > 0) {
+        userData.cartData[itemId] -= 1;
+        await userData.save();
+        res.json({ success: true });
+      } else {
+        res.json({ success: false, message: "Item quantity is already 0" });
+      }
+    } else {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error removing from cart:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to remove from cart" });
+  }
+});
+
+// Get cart
+app.post("/getcart", fetchUser, async (req, res) => {
+  try {
+    let userData = await User.findOne({ _id: req.user.id });
+    if (userData) {
+      res.json({ success: true, cartData: userData.cartData });
+    } else {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch cart" });
   }
 });
 

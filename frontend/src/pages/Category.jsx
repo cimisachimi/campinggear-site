@@ -1,10 +1,13 @@
 import React from "react";
 import Item from "../components/Item";
-import all_products from "../assets/all_products";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
 
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 const Category = ({ category, banner }) => {
+  const { all_products } = useContext(ShopContext);
+
   return (
     <section className="max_padd_countainer p-12 xl:py-28">
       <div>

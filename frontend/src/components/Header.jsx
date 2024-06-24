@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaUserCircle, FaSignOutAlt } from "react-icons/fa"; // Import icons
+import { FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
 import logo from "../assets/logo/logo.png";
-import profilePicture from "../assets/profile.png"; // Import profile picture
+import profilePicture from "../assets/profile.png"; // Ensure this path is correct
 
 const Header = ({ cartItemCount }) => {
-  // Simulated logout function
   const handleLogout = () => {
-    // Implement your logout logic here
-    alert("Logout functionality goes here!");
+    // Clear authentication token and redirect to home page
+    localStorage.removeItem("auth-token");
+    window.location.replace("/");
   };
 
   return (
     <header className="w-full text-gray-700 bg-creamBase border-t border-gray-100 shadow-sm body-font border-b-darkCream">
-      <div className="container flex flex-col md:flex-row items-center justify-between p-5 mx-auto">
+      <div className="container flex items-center justify-between p-5 mx-auto">
         {/* Left Section - Menu Links */}
         <div className="flex items-center">
           <Link to="/" className="mr-5 font-medium hover:text-gray-900">
@@ -33,7 +33,7 @@ const Header = ({ cartItemCount }) => {
         {/* Center Section - Logo */}
         <Link
           to="/"
-          className="flex items-center order-first mb-4 md:mb-0 font-medium text-gray-900 lg:w-1/5 title-font lg:items-center lg:justify-center lg:order-none"
+          className="flex items-center justify-center flex-shrink-0 mr-4"
         >
           <img
             src={logo}
@@ -42,41 +42,48 @@ const Header = ({ cartItemCount }) => {
           />
         </Link>
 
-        {/* Right Section - Profile, Logout and Cart */}
-        <div className="flex items-center">
-          {/* Login/Signup */}
-          <div className="flex items-center space-x-4">
-            <Link to="/login" className="mr-5 font-medium hover:text-gray-900">
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
-            >
-              Sign Up
-            </Link>
-          </div>
-          {/* Profile Avatar and Name */}
+        {/* Right Section - Profile, Logout, and Cart */}
+        <div className="flex items-center space-x-4">
+          {localStorage.getItem("auth-token") ? (
+            // If logged in, show profile pic, username, logout button
+            <>
+              {/* Profile Avatar and Name */}
+              <div className="flex items-center space-x-4">
+                <img
+                  src={profilePicture}
+                  alt="Profile Avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+                <span className="font-medium text-gray-900">John Doe</span>
+              </div>
 
-          <div className="flex items-center space-x-4">
-            <img
-              src={profilePicture}
-              alt="Profile Avatar"
-              className="w-10 h-10 rounded-full"
-            />
-            <span className="font-medium text-gray-900">John Doe</span>
-          </div>
-
-          {/* Logout button */}
-
-          <div className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
-            <button
-              onClick={handleLogout}
-              className=" text-white hover:text-gray-800 focus:outline-none"
-            >
-              Logout
-            </button>
-          </div>
+              {/* Logout button */}
+              <div className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            // If not logged in, show login and signup buttons
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/login"
+                className="mr-5 font-medium hover:text-gray-900"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
 
           {/* Shopping Cart */}
           <div className="relative ml-4">

@@ -1,8 +1,14 @@
-import React from "react";
-import POPULAR from "../assets/popular";
-import Item from "./Item"
+import React, { useEffect, useState } from "react";
+import Item from "./Item";
 
 const Popular = () => {
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/popularproducts")
+      .then((response) => response.json())
+      .then((data) => setPopularProducts(data));
+  }, []);
   return (
     <section className="py-8">
       <div className="container mx-auto px-4">
@@ -12,7 +18,7 @@ const Popular = () => {
         <hr className="mb-8" />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {POPULAR.map((item) => (
+          {popularProducts.map((item) => (
             <Item
               key={item.id}
               id={item.id}

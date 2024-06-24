@@ -1,83 +1,78 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import Breadcrumb from "./Breadcrumb";
 
 const Navbar = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   return (
     <div>
       <nav className="flex justify-center items-center bg-creamBase p-4">
         {/* Middle section: Menu items */}
         <div className="flex justify-center items-center w-full md:w-auto">
           <NavLink
-            to="/new-product"
+            to="/tenda"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
+              isActive
+                ? "text-gray-800 mx-4 font-bold"
+                : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
-            New Product
+            Tenda
           </NavLink>
           <NavLink
             to="/outdoor-gear"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
+              isActive
+                ? "text-gray-800 mx-4 font-bold"
+                : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             Outdoor Gear
           </NavLink>
-          <div className="relative">
+          <div className="relative group">
             {/* Dropdown trigger */}
-            <button
-              className="text-gray-800 hover:text-slate-400 focus:outline-none mx-4 "
-              onClick={toggleDropdown}
-            >
+            <button className="text-gray-800 hover:text-slate-400 focus:outline-none mx-4">
               Accessories
             </button>
 
             {/* Dropdown menu */}
-            {isDropdownOpen && (
-              <div className="absolute left-0 mt-2 w-full bg-creamBase z-10">
-                <div className="flex justify-center">
-                  {/* Submenu items */}
-                  <div className="flex flex-col space-y-2 p-4">
-                    <NavLink
-                      to="/accessories/hats"
-                      className={({ isActive }) =>
-                        isActive ? "text-gray-800 font-bold" : "text-gray-800"
-                      }
-                    >
-                      Hats
-                    </NavLink>
-                    <NavLink
-                      to="/accessories/bags"
-                      className={({ isActive }) =>
-                        isActive ? "text-gray-800 font-bold" : "text-gray-800"
-                      }
-                    >
-                      Bags
-                    </NavLink>
-                    <NavLink
-                      to="/accessories/sunglasses"
-                      className={({ isActive }) =>
-                        isActive ? "text-gray-800 font-bold" : "text-gray-800"
-                      }
-                    >
-                      Sunglasses
-                    </NavLink>
-                  </div>
+            <div className="absolute left-0 mt-2 w-full bg-creamBase z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="flex justify-center">
+                {/* Submenu items */}
+                <div className="flex flex-col space-y-2 p-4">
+                  <NavLink
+                    to="/accessories/hats"
+                    className={({ isActive }) =>
+                      isActive ? "text-gray-800 font-bold" : "text-gray-800"
+                    }
+                  >
+                    Hats
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/bags"
+                    className={({ isActive }) =>
+                      isActive ? "text-gray-800 font-bold" : "text-gray-800"
+                    }
+                  >
+                    Bags
+                  </NavLink>
+                  <NavLink
+                    to="/accessories/sunglasses"
+                    className={({ isActive }) =>
+                      isActive ? "text-gray-800 font-bold" : "text-gray-800"
+                    }
+                  >
+                    Sunglasses
+                  </NavLink>
                 </div>
               </div>
-            )}
+            </div>
           </div>
           <NavLink
             to="/wear"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4 hover:text-slate-400"
+              isActive
+                ? "text-gray-800 mx-4 font-bold"
+                : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             Wear
@@ -85,7 +80,9 @@ const Navbar = () => {
           <NavLink
             to="/sale"
             className={({ isActive }) =>
-              isActive ? "text-gray-800 mx-4 font-bold" : "text-gray-800 mx-4  hover:text-slate-400"
+              isActive
+                ? "text-gray-800 mx-4 font-bold"
+                : "text-gray-800 mx-4 hover:text-slate-400"
             }
           >
             Sale

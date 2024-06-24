@@ -31,16 +31,20 @@ export default function App() {
           <Route path="/" element={<Home />} />
           {/* Categories */}
           <Route
-            path="/new-product"
-            element={<Category category={"men"} banner={bannermens} />}
+            path="/tenda"
+            element={<Category category={"Tenda"} banner={bannermens} />}
           />
           <Route
-            path="/outdoor-gear"
-            element={<Category category={"women"} banner={bannerswomens} />}
+            path="/tenda"
+            element={<Category category={"tenda"} banner={bannerswomens} />}
           />
           <Route
             path="/wear"
-            element={<Category category={"kid"} banner={bannerkids} />}
+            element={<Category category={"peralatan"} banner={bannerkids} />}
+          />
+          <Route
+            path="/wear"
+            element={<Category category={"peralatan"} banner={bannerkids} />}
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />
