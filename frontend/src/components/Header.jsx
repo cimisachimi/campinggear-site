@@ -1,9 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle, FaSignOutAlt } from "react-icons/fa"; // Import icons
 import logo from "../assets/logo/logo.png";
+import profilePicture from "../assets/profile.png"; // Import profile picture
 
 const Header = ({ cartItemCount }) => {
+  // Simulated logout function
+  const handleLogout = () => {
+    // Implement your logout logic here
+    alert("Logout functionality goes here!");
+  };
+
   return (
     <header className="w-full text-gray-700 bg-creamBase border-t border-gray-100 shadow-sm body-font border-b-darkCream">
       <div className="container flex flex-col md:flex-row items-center justify-between p-5 mx-auto">
@@ -35,10 +42,10 @@ const Header = ({ cartItemCount }) => {
           />
         </Link>
 
-        {/* Right Section - Login/Signup and Cart */}
+        {/* Right Section - Profile, Logout and Cart */}
         <div className="flex items-center">
-          {/* Login / Sign up button */}
-          <div className="flex items-center mr-5">
+          {/* Login/Signup */}
+          <div className="flex items-center space-x-4">
             <Link to="/login" className="mr-5 font-medium hover:text-gray-900">
               Login
             </Link>
@@ -49,9 +56,30 @@ const Header = ({ cartItemCount }) => {
               Sign Up
             </Link>
           </div>
+          {/* Profile Avatar and Name */}
+
+          <div className="flex items-center space-x-4">
+            <img
+              src={profilePicture}
+              alt="Profile Avatar"
+              className="w-10 h-10 rounded-full"
+            />
+            <span className="font-medium text-gray-900">John Doe</span>
+          </div>
+
+          {/* Logout button */}
+
+          <div className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
+            <button
+              onClick={handleLogout}
+              className=" text-white hover:text-gray-800 focus:outline-none"
+            >
+              Logout
+            </button>
+          </div>
 
           {/* Shopping Cart */}
-          <div className="relative">
+          <div className="relative ml-4">
             <Link to="/Cart">
               <button className="text-gray-800 hover:text-gray-800 focus:outline-none">
                 <FaShoppingCart className="h-6 w-6" />

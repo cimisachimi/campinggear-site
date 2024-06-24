@@ -2,24 +2,27 @@ const port = 4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 app.use(cors());
 
-// Database Koneksi dengan mongodb
-mongoose.connect(
-  "mongodb+srv://chimi:chimi123@cluster0.pyaff9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-);
+// Database connection with MongoDB
+mongoose
+  .connect(
+    "mongodb+srv://chimi:chimi123@cluster0.pyaff9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Failed to connect to MongoDB", err));
 
-// Penyimpanan gambar Engine dengan Multer
+// Multer storage configuration
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
-    return cb(
+    cb(
       null,
       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
     );
@@ -28,7 +31,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// membuat tujuan upload untuk gambar
+// Serve static images
 app.use("/images", express.static("upload/images"));
 app.post("/upload", upload.single("product"), (req, res) => {
   res.json({
@@ -37,12 +40,12 @@ app.post("/upload", upload.single("product"), (req, res) => {
   });
 });
 
-// Buat APi
+// Default route
 app.get("/", (req, res) => {
   res.send("Express App is running");
 });
 
-// Schema membuat produk
+// Product schema
 const Product = mongoose.model("Product", {
   id: {
     type: Number,
@@ -78,17 +81,11 @@ const Product = mongoose.model("Product", {
   },
 });
 
-//Tambah Product baru
+// Add new product
 app.post("/addproduct", async (req, res) => {
   try {
     let products = await Product.find({});
-    let id;
-    if (products.length > 0) {
-      let last_product = products[products.length - 1];
-      id = last_product.id + 1;
-    } else {
-      id = 1;
-    }
+    let id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
 
     const product = new Product({
       id: id,
@@ -98,10 +95,8 @@ app.post("/addproduct", async (req, res) => {
       new_price: req.body.new_price,
       old_price: req.body.old_price,
     });
-    console.log(product);
 
     await product.save();
-    console.log("Saved");
 
     res.json({
       success: true,
@@ -113,8 +108,7 @@ app.post("/addproduct", async (req, res) => {
   }
 });
 
-// Baca Semua Product
-
+// Get all products
 app.get("/allproducts", async (req, res) => {
   try {
     const products = await Product.find({});
@@ -136,13 +130,11 @@ app.post("/removeproduct", async (req, res) => {
   try {
     const result = await Product.findOneAndDelete({ id: req.body.id });
     if (result) {
-      console.log("Product deleted successfully");
       res.json({
         success: true,
         message: "Product deleted successfully",
       });
     } else {
-      console.log("Product not found");
       res.status(404).json({
         success: false,
         message: "Product not found",
@@ -154,6 +146,84 @@ app.post("/removeproduct", async (req, res) => {
       success: false,
       message: "Failed to delete product",
     });
+  }
+});
+
+// User schema
+const User = mongoose.model("User", {
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  password: {
+    type: String,
+  },
+  cartData: {
+    type: Object,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// User signup endpoint
+app.post("/signup", async (req, res) => {
+  try {
+    let check = await User.findOne({ email: req.body.email });
+    if (check) {
+      return res
+        .status(400)
+        .json({ success: false, errors: "Email sudah digunakan" });
+    }
+
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+      cart[i] = 0;
+    }
+
+    const user = new User({
+      name: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      cartData: cart,
+    });
+
+    await user.save();
+
+    const data = {
+      user: {
+        id: user.id,
+      },
+    };
+    const token = jwt.sign(data, "secret_ecom");
+    res.json({ success: true, token });
+  } catch (error) {
+    console.error("Error during signup:", error);
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+});
+
+// User login endpoint
+app.post("/login", async (req, res) => {
+  let user = await User.findOne({ email: req.body.email });
+  if (user) {
+    const passMatch = req.body.password === user.password;
+    if (passMatch) {
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+      const token = jwt.sign(data, "secret_ecom");
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, errors: "Wrong Password" });
+    }
+  } else {
+    res.json({ success: false, errors: "Wrong Email Adress" });
   }
 });
 
