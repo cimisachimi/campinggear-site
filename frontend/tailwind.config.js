@@ -7,8 +7,6 @@ export default {
   ],
 
   theme: {
-
-    
     extend: {
       colors: {
         creamBase: "hsl(40, 53%, 93%)",
@@ -22,6 +20,7 @@ export default {
       backgroundImage: {
         Hero: "url('assets/banner1.jpg')",
         Heri: "url('assets/banner2.jpg')",
+        cover: "url('assets/bannermens.jpg)",
       },
     },
     screen: {
@@ -36,20 +35,19 @@ export default {
     },
 
     maxWidth: {
-        '10xl': '1512px',
-      },
-      borderRadius: {
-        'none': '0',
-        'sm': '0.125rem',
-        DEFAULT: '0.25rem',
-        DEFAULT: '4px',
-        'md': '0.375rem',
-        'lg': '0.5rem',
-        'xl' :'0.8rem',
-        'full': '9999px',
-        'large': '12px',
-      },
-
+      "10xl": "1512px",
+    },
+    borderRadius: {
+      none: "0",
+      sm: "0.125rem",
+      DEFAULT: "0.25rem",
+      DEFAULT: "4px",
+      md: "0.375rem",
+      lg: "0.5rem",
+      xl: "0.8rem",
+      full: "9999px",
+      large: "12px",
+    },
   },
   plugins: [],
 };

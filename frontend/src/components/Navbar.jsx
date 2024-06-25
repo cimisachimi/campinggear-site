@@ -19,7 +19,7 @@ const Navbar = () => {
             Tenda
           </NavLink>
           <NavLink
-            to="/tas-outdoor"
+            to="/tas"
             className={({ isActive }) =>
               isActive
                 ? "text-gray-800 mx-4 font-bold"
@@ -40,7 +40,7 @@ const Navbar = () => {
                 {/* Submenu items */}
                 <div className="flex flex-col space-y-2 p-4">
                   <NavLink
-                    to="/masak"
+                    to="/memasak"
                     className={({ isActive }) =>
                       isActive ? "text-gray-800 font-bold" : "text-gray-800"
                     }
@@ -60,7 +60,7 @@ const Navbar = () => {
             </div>
           </div>
           <NavLink
-            to="/wear"
+            to="/aksesoris"
             className={({ isActive }) =>
               isActive
                 ? "text-gray-800 mx-4 font-bold"

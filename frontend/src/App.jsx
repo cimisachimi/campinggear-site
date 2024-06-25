@@ -15,7 +15,7 @@ import Footer from "./components/Footer";
 
 // Assets
 import bannerswomens from "./assets/bannerwomens.png";
-import bannermens from "./assets/bannermens.png";
+import bannermens from "./assets/bannermens.jpg";
 import bannerkids from "./assets/bannerkids.png";
 import SignUp from "./pages/Signup.jsx";
 
@@ -35,16 +35,16 @@ export default function App() {
             element={<Category category={"Tenda"} banner={bannermens} />}
           />
           <Route
-            path="/tenda"
-            element={<Category category={"tenda"} banner={bannerswomens} />}
+            path="/tas"
+            element={<Category category={"Tas"} banner={bannerswomens} />}
           />
           <Route
-            path="/wear"
-            element={<Category category={"peralatan"} banner={bannerkids} />}
+            path="/memasak"
+            element={<Category category={"Memasak"} banner={bannerkids} />}
           />
           <Route
-            path="/wear"
-            element={<Category category={"peralatan"} banner={bannerkids} />}
+            path="/aksesoris"
+            element={<Category category={"Aksesories"} banner={bannerkids} />}
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />

@@ -19,7 +19,7 @@ const Product = () => {
   return (
     <section>
       {/* <ProductHd product={product} /> */}
-      
+
       <ProductDisplay product={product} />
       <RelatedProducts />
     </section>

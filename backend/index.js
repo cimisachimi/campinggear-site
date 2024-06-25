@@ -264,47 +264,27 @@ const fetchUser = async (req, res, next) => {
   }
 };
 
-// Add product to cart
 app.post("/addtocart", fetchUser, async (req, res) => {
-  try {
-    let userData = await User.findOne({ _id: req.user.id });
-    if (userData) {
-      const { itemId } = req.body;
-      const quantity = userData.cartData[itemId] || 0;
-      userData.cartData[itemId] = quantity + 1;
-      await userData.save();
-      res.json({ success: true });
-    } else {
-      res.status(404).json({ success: false, message: "User not found" });
-    }
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    res.status(500).json({ success: false, message: "Failed to add to cart" });
-  }
+  console.log("Added ", req.body, req.user);
+  let userData = await User.findOne({ _id: req.user.id });
+  userData.cartData[req.body.itemId] += 1;
+  await User.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.send("Added");
 });
 
-// Remove product from cart
 app.post("/removefromcart", fetchUser, async (req, res) => {
-  try {
-    let userData = await User.findOne({ _id: req.user.id });
-    if (userData) {
-      const { itemId } = req.body;
-      if (userData.cartData[itemId] > 0) {
-        userData.cartData[itemId] -= 1;
-        await userData.save();
-        res.json({ success: true });
-      } else {
-        res.json({ success: false, message: "Item quantity is already 0" });
-      }
-    } else {
-      res.status(404).json({ success: false, message: "User not found" });
-    }
-  } catch (error) {
-    console.error("Error removing from cart:", error);
-    res
-      .status(500)
-      .json({ success: false, message: "Failed to remove from cart" });
-  }
+  console.log("Removed", req.body, req.user);
+  let userData = await User.findOne({ _id: req.user.id });
+  if (userData.cartData[req.body.itemId] > 0)
+    userData.cartData[req.body.itemId] -= 1;
+  await User.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.send("Removed");
 });
 
 // Get cart

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 
 const Cart = () => {
-  const { all_products, cartItems, removeFromCart, getTotalCartAmount} = useContext(ShopContext);
+  const { all_products, cartItems, removeFromCart, getTotalCartAmount } =
+    useContext(ShopContext);
 
   const updateQuantity = (itemId, increment) => {
     // Ensure quantity doesn't go below 0

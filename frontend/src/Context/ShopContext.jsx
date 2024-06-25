@@ -37,7 +37,7 @@ const ShopContextProvider = (props) => {
   const addToCart = (itemId) => {
     setCartItems((prev) => ({
       ...prev,
-      [itemId]: (prev[itemId] || 0) + 1,
+      [itemId]: prev[itemId] + 1,
     }));
 
     const token = localStorage.getItem("auth-token");
@@ -59,7 +59,7 @@ const ShopContextProvider = (props) => {
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({
       ...prev,
-      [itemId]: Math.max(0, (prev[itemId] || 0) - 1),
+      [itemId]: prev[itemId] - 1,
     }));
 
     const token = localStorage.getItem("auth-token");
