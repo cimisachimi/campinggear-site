@@ -15,14 +15,11 @@ const Header = ({ cartItemCount }) => {
     <header className="w-full text-gray-700 bg-creamBase border-t border-gray-100 shadow-sm body-font border-b-darkCream">
       <div className="container flex items-center justify-between p-5 mx-auto">
         {/* Left Section - Menu Links */}
-        <div className="flex items-center">
-          <Link to="/" className="mr-5 font-medium hover:text-gray-900">
+        <div className="flex items-center space-x-4 flex-1">
+          <Link to="/" className="font-medium hover:text-gray-900">
             Home
           </Link>
-          <Link
-            to="/aboutPage"
-            className="mr-5 font-medium hover:text-gray-900"
-          >
+          <Link to="/aboutPage" className="font-medium hover:text-gray-900">
             About
           </Link>
           <Link to="/contact" className="font-medium hover:text-gray-900">
@@ -31,19 +28,18 @@ const Header = ({ cartItemCount }) => {
         </div>
 
         {/* Center Section - Logo */}
-        <Link
-          to="/"
-          className="flex items-center justify-center flex-shrink-0 mr-4"
-        >
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-auto max-h-14 md:max-h-16 lg:max-h-20"
-          />
-        </Link>
+        <div className="flex-shrink-0">
+          <Link to="/" className="flex items-center justify-center">
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-auto max-h-14 md:max-h-16 lg:max-h-20"
+            />
+          </Link>
+        </div>
 
         {/* Right Section - Profile, Logout, and Cart */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 flex-1 justify-end">
           {localStorage.getItem("auth-token") ? (
             // If logged in, show profile pic, username, logout button
             <>
@@ -70,10 +66,7 @@ const Header = ({ cartItemCount }) => {
           ) : (
             // If not logged in, show login and signup buttons
             <div className="flex items-center space-x-4">
-              <Link
-                to="/login"
-                className="mr-5 font-medium hover:text-gray-900"
-              >
+              <Link to="/login" className="font-medium hover:text-gray-900">
                 Login
               </Link>
               <Link

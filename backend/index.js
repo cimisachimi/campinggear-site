@@ -34,15 +34,12 @@ const upload = multer({ storage: storage });
 // Serve static images
 app.use("/images", express.static("upload/images"));
 
-// Endpoint to handle multiple file uploads
-app.post("/upload", upload.array("product", 10), (req, res) => {
-  // Adjust the limit (10) as needed
-  const imageUrls = req.files.map(
-    (file) => `http://localhost:${port}/images/${file.filename}`
-  );
+// Endpoint to handle single file upload
+app.post("/upload", upload.single("product"), (req, res) => {
+  const imageUrl = `http://localhost:${port}/images/${req.file.filename}`;
   res.json({
     success: 1,
-    image_urls: imageUrls,
+    image_url: imageUrl,
   });
 });
 
@@ -61,8 +58,8 @@ const Product = mongoose.model("Product", {
     type: String,
     required: true,
   },
-  images: {
-    type: [String], // Array of image URLs
+  image: {
+    type: String, // Single image URL
     required: true,
   },
   category: {
@@ -96,7 +93,7 @@ app.post("/addproduct", async (req, res) => {
     const product = new Product({
       id: id,
       name: req.body.name,
-      images: req.body.images, // Array of image URLs
+      image: req.body.image, // Single image URL
       category: req.body.category,
       new_price: req.body.new_price,
       old_price: req.body.old_price,
@@ -182,7 +179,7 @@ app.post("/signup", async (req, res) => {
     if (check) {
       return res
         .status(400)
-        .json({ success: false, errors: "Email sudah digunakan" });
+        .json({ success: false, errors: "Email already in use" });
     }
 
     let cart = {};
@@ -229,19 +226,19 @@ app.post("/login", async (req, res) => {
       res.json({ success: false, errors: "Wrong Password" });
     }
   } else {
-    res.json({ success: false, errors: "Wrong Email Adress" });
+    res.json({ success: false, errors: "Wrong Email Address" });
   }
 });
 
-// Mengambil data newcollection dari database
+// Fetch new collections from the database
 app.get("/newcollections", async (req, res) => {
   let products = await Product.find({});
   let newcollection = products.slice(1).slice(-8);
-  console.log("Newcollection fecthed");
+  console.log("New collection fetched");
   res.send(newcollection);
 });
 
-// Mengambil data popularProduct dari database
+// Fetch popular products from the database
 app.get("/popularproducts", async (req, res) => {
   let products = await Product.find({ category: "Tenda" });
   let popularproducts = products.slice(0, 4);
@@ -249,11 +246,11 @@ app.get("/popularproducts", async (req, res) => {
   res.send(popularproducts);
 });
 
-//mendapat user
+// Middleware to authenticate user
 const fetchUser = async (req, res, next) => {
   const token = req.header("auth-token");
   if (!token) {
-    res.status(401).send({ errors: "Please autheticate using valid login" });
+    res.status(401).send({ errors: "Please authenticate using a valid token" });
   } else {
     try {
       const data = jwt.verify(token, "secret_ecom");
@@ -262,10 +259,12 @@ const fetchUser = async (req, res, next) => {
     } catch (error) {
       res
         .status(401)
-        .send({ errors: "please autheticate using a valid token" });
+        .send({ errors: "Please authenticate using a valid token" });
     }
   }
-}; // Add product to cart
+};
+
+// Add product to cart
 app.post("/addtocart", fetchUser, async (req, res) => {
   try {
     let userData = await User.findOne({ _id: req.user.id });
@@ -325,7 +324,7 @@ app.post("/getcart", fetchUser, async (req, res) => {
 
 app.listen(port, (error) => {
   if (!error) {
-    console.log("server is running on port " + port);
+    console.log("Server is running on port " + port);
   } else {
     console.log("Error: " + error);
   }

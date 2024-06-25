@@ -2,17 +2,12 @@ import React, { useState, useRef } from "react";
 import upload_place from "../assets/uploadimage.svg";
 
 const AddProduct = () => {
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const fileInputRefs = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
+  const [imagePreview, setImagePreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const [productDetails, setProductDetails] = useState({
     name: "",
-    images: [], // Changed from image to images (array)
+    image: "",
     category: "",
     new_price: "",
     old_price: "",
@@ -28,23 +23,14 @@ const AddProduct = () => {
     let responseData;
     let product = { ...productDetails };
 
-    // Collect all selected files from input refs
-    const selectedFiles = fileInputRefs.reduce((files, ref) => {
-      if (ref.current && ref.current.files.length > 0) {
-        files.push(ref.current.files[0]);
-      }
-      return files;
-    }, []);
-
-    if (selectedFiles.length === 0) {
-      alert("Please select at least one image to upload.");
+    const fileInput = fileInputRef.current;
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+      alert("Please select an image to upload.");
       return;
     }
 
     const formData = new FormData();
-    selectedFiles.forEach((file) => {
-      formData.append("product", file);
-    });
+    formData.append("product", fileInput.files[0]);
 
     try {
       const response = await fetch("http://localhost:4000/upload", {
@@ -55,7 +41,7 @@ const AddProduct = () => {
       responseData = await response.json();
 
       if (responseData.success) {
-        product.images = responseData.image_urls;
+        product.image = responseData.image_url;
 
         const productResponse = await fetch(
           "http://localhost:4000/addproduct",
@@ -74,47 +60,38 @@ const AddProduct = () => {
           alert("Product added successfully!");
           setProductDetails({
             name: "",
-            images: [],
+            image: "",
             category: "",
             new_price: "",
             old_price: "",
           });
-          setImagePreviews([]);
-          // Clear all file inputs after successful submission
-          fileInputRefs.forEach((ref) => {
-            if (ref.current) {
-              ref.current.value = "";
-            }
-          });
+          setImagePreview(null);
         } else {
           alert("Failed to add product. Please try again.");
         }
       } else {
-        alert("Failed to upload images. Please try again.");
+        alert("Failed to upload image. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error uploading images. Please try again.");
+      alert("Error uploading image. Please try again.");
     }
   };
 
-  const handleImageChange = (index, e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const previews = [...imagePreviews];
-        previews[index] = reader.result;
-        setImagePreviews(previews);
-
-        const updatedImages = [...productDetails.images];
-        updatedImages[index] = file;
+        setImagePreview(reader.result);
         setProductDetails((prevDetails) => ({
           ...prevDetails,
-          images: updatedImages,
+          image: file,
         }));
       };
       reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
     }
   };
 
@@ -171,51 +148,41 @@ const AddProduct = () => {
             >
               <option value="">Pilih Kategori</option>
               <option value="Tenda">Tenda</option>
-              <option value="fashion">Baju</option>
-              <option value="grocery">Peralatan</option>
-              <option value="home">Home</option>
-              <option value="sports">Sports</option>
+              <option value="Tas">Tas</option>
+              <option value="Memasak">Memasak</option>
+              <option value="Outdoor">Outdoor</option>
+              <option value="Aksesories">Aksesories</option>
             </select>
           </div>
           <div className="mb-3">
+            <input
+              type="file"
+              name="image"
+              id="file-input"
+              onChange={handleImageChange}
+              ref={fileInputRef}
+            />
             <h4 className="bold-18 pb-2">Upload Gambar:</h4>
-            <div className="flex flex-wrap gap-4">
-              {imagePreviews.map((preview, index) => (
-                <div key={index} className="relative">
-                  <img
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="w-20 h-20 object-cover rounded-sm"
-                  />
-                </div>
-              ))}
-              {fileInputRefs.map((fileInputRef, index) => (
-                <div key={index} className="flex flex-col items-center">
-                  <label
-                    htmlFor={`file-input-${index}`}
-                    className="mb-1 cursor-pointer"
-                  >
+            <div className="flex items-center">
+              {!imagePreview ? (
+                <>
+                  <label htmlFor="file-input" className="mr-2 cursor-pointer">
                     <img
                       src={upload_place}
                       alt="Upload"
                       className="w-20 rounded-sm"
                     />
                   </label>
-                  <input
-                    type="file"
-                    id={`file-input-${index}`}
-                    onChange={(e) => handleImageChange(index, e)}
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    accept="image/*"
+                </>
+              ) : (
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-20 h-20 object-cover rounded-sm"
                   />
-                  <span>
-                    {productDetails.images[index]
-                      ? productDetails.images[index].name
-                      : "Pilih Gambar"}
-                  </span>
                 </div>
-              ))}
+              )}
             </div>
           </div>
           <button
@@ -229,5 +196,4 @@ const AddProduct = () => {
     </div>
   );
 };
-
 export default AddProduct;
