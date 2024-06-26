@@ -292,19 +292,12 @@ const Order = mongoose.model("Order", {
     ref: "User",
     required: true,
   },
-  cartItems: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
+  cartData: {
+    type: Object,
+  },
+  address: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ["Pending", "Processing", "Shipped", "Delivered"],
@@ -314,6 +307,52 @@ const Order = mongoose.model("Order", {
     type: Date,
     default: Date.now,
   },
+});
+
+app.post("/createorder", fetchUser, async (req, res) => {
+  try {
+    const userData = await User.findById(req.user.id);
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const order = new Order({
+      user: userData._id,
+      cartData: userData.cartData,
+      address: req.body.address,
+      status: "Pending",
+    });
+
+    await order.save();
+
+    // Clear the cart after placing the order
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+      cart[i] = 0;
+    }
+    userData.cartData = cart;
+    await userData.save();
+
+    res.json({ success: true, order });
+  } catch (error) {
+    console.error("Error creating order:", error);
+    res.status(500).json({ success: false, message: "Failed to create order" });
+  }
+});
+
+// Assuming you have middleware to authenticate users (fetchUser middleware)
+app.get("/orders", fetchUser, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.id }).sort({
+      createdAt: -1,
+    });
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch orders" });
+  }
 });
 
 app.listen(port, (error) => {
