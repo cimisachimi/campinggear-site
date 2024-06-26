@@ -9,7 +9,7 @@ const Category = ({ category, banner }) => {
   const { all_products } = useContext(ShopContext);
 
   return (
-    <section className="max_padd_countainer p-12 xl:py-28">
+    <section className="max_padd_countainer p-12 xl:py-28 bg-creamBase">
       <div>
         <div>
           <img src={banner} alt="" className="block my-7 mx-auto " />

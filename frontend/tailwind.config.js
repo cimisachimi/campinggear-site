@@ -12,7 +12,9 @@ export default {
         creamBase: "hsl(40, 53%, 93%)",
         darkCream: "hsl(31, 37%, 45%)",
         darkGreen: "hsl(82, 18%, 12%)",
-        lightCream: "hsl(31, 34%, 49%)",
+        lightCream2: "hsl(31, 34%, 49%)",
+        lightCream1: "hsl(33.43, 56.45%, 75.69%)",
+
       },
       fontFamily: {
         nunito: "'Nunito', sans-serif",

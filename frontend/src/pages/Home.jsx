@@ -7,7 +7,7 @@ import Offer from "../components/Offer";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-creamBase">
       <h1>This is Home Page</h1>
       <Hero />
       <Popular />

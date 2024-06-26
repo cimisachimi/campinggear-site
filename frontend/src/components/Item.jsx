@@ -8,13 +8,14 @@ const Item = ({ id, name, image, old_price, new_price }) => {
       currency: "IDR",
     }).format(amount);
   };
+
   return (
-    <div className="bg-white shadow-lg overflow-hidden rounded-xl">
-      <div className=" relative overflow-hidden duration-100 group transition-all">
+    <div className="bg-white shadow-lg overflow-hidden rounded-xl flex flex-col justify-between">
+      <div className="relative overflow-hidden duration-100 group transition-all">
         {/* Link untuk Product Berdasarkan ID */}
-        <Link to={`/product/${id}`} className=" ">
+        <Link to={`/product/${id}`} className="">
           <img
-            onClick={window.scrollTo(0, 0)}
+            onClick={() => window.scrollTo(0, 0)}
             className="w-full h-90 object-cover block group-hover:scale-110 duration-800 transition-all"
             src={image}
             alt="productImage"
@@ -22,14 +23,14 @@ const Item = ({ id, name, image, old_price, new_price }) => {
         </Link>
       </div>
 
-      <div className="p-4 bg-creamBase">
+      <div className="bg-lightCream1 p-4 text-slate-100 flex-grow flex flex-col justify-between md:text-sm sm:text-xs">
         <h2 className="text-lg font-semibold mb-2">{name}</h2>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-xl font-bold text-gray-900">
+        <div className="flex items-center justify-between mb-4  md:space-x-1">
+          <span className="text-xl font-bold md:text-sm sm:text-xs">
             {formatCurrency(new_price)}
           </span>
           {old_price && (
-            <span className="text-gray-500 line-through">
+            <span className="text-gray-500 line-through md:text-xs sm:text-xs">
               {formatCurrency(old_price)}
             </span>
           )}

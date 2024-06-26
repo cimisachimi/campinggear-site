@@ -24,7 +24,7 @@ const Header = ({ cartItemCount }) => {
   };
 
   return (
-    <header className="w-full text-gray-700 bg-creamBase border-t border-gray-100 shadow-sm body-font border-b-darkCream">
+    <header className="w-full text-gray-700  border-t border-gray-100 shadow-sm body-font  bg-lightCream1">
       <div className="container flex items-center justify-between p-5 mx-auto">
         {/* Left Section - Menu Links */}
         <div className="flex items-center space-x-4 flex-1">
@@ -96,7 +96,7 @@ const Header = ({ cartItemCount }) => {
               <button className="text-gray-800 hover:text-gray-800 focus:outline-none">
                 <FaShoppingCart className="h-6 w-6" />
                 {cartItemCount > 0 && (
-                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ">
                     {cartItemCount}
                   </span>
                 )}
