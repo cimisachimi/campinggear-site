@@ -14,11 +14,12 @@ const Cart = () => {
     cartItems,
     removeFromCart,
     getTotalCartAmount,
-    createTransactionFromCart,
+    placeOrder,
+    setFullAddress,
   } = useContext(ShopContext);
 
   const [addressForm, setAddressForm] = useState({
-    fullAddress: "", // Combine all address fields into one fullAddress field
+    fullAddress: "",
   });
 
   const handleInputChange = (e) => {
@@ -27,24 +28,19 @@ const Cart = () => {
       ...prevAddress,
       [name]: value,
     }));
+    setFullAddress(value);
   };
 
   const updateQuantity = (itemId, increment) => {
-    // Ensure quantity doesn't go below 0
     const newQuantity = Math.max(0, cartItems[itemId] + increment);
-    // Call removeFromCart if quantity is reduced to 0
     if (newQuantity === 0) {
       removeFromCart(itemId);
     } else {
-      // Update cartItems with the new quantity
-      // Normally, you should update state in context
       console.log(`Updating quantity of ${itemId} to ${newQuantity}`);
     }
   };
 
-  // Calculate subtotal based on items in cart
   const subtotal = Object.keys(cartItems).reduce((acc, itemId) => {
-    // Find the product by itemId in all_products
     const product = all_products.find((prod) => prod.id === parseInt(itemId));
     if (product) {
       return acc + product.new_price * cartItems[itemId];
@@ -56,18 +52,13 @@ const Cart = () => {
   const total = subtotal + shipping;
 
   const handleCheckout = () => {
-    const { fullAddress } = addressForm;
-    createTransactionFromCart(fullAddress)
+    placeOrder(cartItems)
       .then((data) => {
-        // Optionally handle data returned from createTransactionFromCart
         console.log("Transaction created:", data);
-
-        // Clear form fields and update cart data as needed
         setAddressForm({ fullAddress: "" });
       })
       .catch((error) => {
         console.error("Error creating transaction:", error);
-        // Optionally display an error message to the user
       });
   };
 
@@ -77,7 +68,6 @@ const Cart = () => {
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
           {Object.keys(cartItems).map((itemId) => {
-            // Find the product by itemId in all_products
             const product = all_products.find(
               (prod) => prod.id === parseInt(itemId)
             );

@@ -286,6 +286,36 @@ app.post("/getcart", fetchUser, async (req, res) => {
   }
 });
 
+const Order = mongoose.model("Order", {
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  cartItems: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  status: {
+    type: String,
+    enum: ["Pending", "Processing", "Shipped", "Delivered"],
+    default: "Pending",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 app.listen(port, (error) => {
   if (!error) {
     console.log("Server is running on port " + port);
