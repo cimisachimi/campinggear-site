@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSignOutAlt } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/logo/logo.png";
 import profilePicture from "../assets/profile.png"; // Ensure this path is correct
 
 const Header = ({ cartItemCount }) => {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth-token");
+    if (token) {
+      // Fetch user data or get username from localStorage
+      const userData = JSON.parse(atob(token.split(".")[1])); // decode JWT token payload
+      setUsername(userData.user.name); // assuming JWT payload has user object with name
+    }
+  }, []);
+
   const handleLogout = () => {
     // Clear authentication token and redirect to home page
     localStorage.removeItem("auth-token");
+    setUsername(""); // Clear username state
     window.location.replace("/");
   };
 
@@ -50,7 +62,7 @@ const Header = ({ cartItemCount }) => {
                   alt="Profile Avatar"
                   className="w-10 h-10 rounded-full"
                 />
-                <span className="font-medium text-gray-900">John Doe</span>
+                <span className="font-medium text-gray-900">{username}</span>
               </div>
 
               {/* Logout button */}

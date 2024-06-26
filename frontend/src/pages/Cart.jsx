@@ -1,9 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
 
 const Cart = () => {
-  const { all_products, cartItems, removeFromCart, getTotalCartAmount } =
-    useContext(ShopContext);
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(amount);
+  };
+
+  const {
+    all_products,
+    cartItems,
+    removeFromCart,
+    getTotalCartAmount,
+    createTransactionFromCart,
+  } = useContext(ShopContext);
+
+  const [addressForm, setAddressForm] = useState({
+    fullAddress: "", // Combine all address fields into one fullAddress field
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAddressForm((prevAddress) => ({
+      ...prevAddress,
+      [name]: value,
+    }));
+  };
 
   const updateQuantity = (itemId, increment) => {
     // Ensure quantity doesn't go below 0
@@ -28,8 +52,24 @@ const Cart = () => {
     return acc;
   }, 0);
 
-  const shipping = 499;
+  const shipping = 50000;
   const total = subtotal + shipping;
+
+  const handleCheckout = () => {
+    const { fullAddress } = addressForm;
+    createTransactionFromCart(fullAddress)
+      .then((data) => {
+        // Optionally handle data returned from createTransactionFromCart
+        console.log("Transaction created:", data);
+
+        // Clear form fields and update cart data as needed
+        setAddressForm({ fullAddress: "" });
+      })
+      .catch((error) => {
+        console.error("Error creating transaction:", error);
+        // Optionally display an error message to the user
+      });
+  };
 
   return (
     <div className="h-screen bg-gray-100 pt-20">
@@ -85,7 +125,9 @@ const Cart = () => {
                         </span>
                       </div>
                       <div className="flex items-center space-x-4">
-                        <p className="text-sm">{product.new_price} ₭</p>
+                        <p className="text-sm">
+                          {formatCurrency(product.new_price)}
+                        </p>
                         <svg
                           onClick={() => removeFromCart(itemId)}
                           xmlns="http://www.w3.org/2000/svg"
@@ -111,23 +153,43 @@ const Cart = () => {
           })}
         </div>
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
+          <h2 className="mb-4 text-lg font-bold">Shipping Address</h2>
+          <form>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Full Address
+              </label>
+              <textarea
+                name="fullAddress"
+                value={addressForm.fullAddress}
+                onChange={handleInputChange}
+                rows={4}
+                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+            </div>
+          </form>
+          <hr className="my-4" />
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">${getTotalCartAmount()}</p>
+            <p className="text-gray-700">{formatCurrency(subtotal)}</p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Shipping</p>
-            <p className="text-gray-700">${shipping.toFixed(3)}</p>
+            <p className="text-gray-700">{formatCurrency(shipping)}</p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div className="">
-              <p className="mb-1 text-lg font-bold">${total.toFixed(3)} USD</p>
+              <p className="mb-1 text-lg font-bold">{formatCurrency(total)}</p>
               <p className="text-sm text-gray-700">including VAT</p>
             </div>
           </div>
-          <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+          <button
+            onClick={handleCheckout}
+            className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+          >
             Check out
           </button>
         </div>

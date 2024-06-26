@@ -54,6 +54,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/cart" element={<Cart />} />
+          {/* Add the Checkout route */}
         </Routes>
         {/* Tampilan Footer */}
         <Footer />

@@ -10,7 +10,6 @@ const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(cors());
 
-// Database connection with MongoDB
 mongoose
   .connect(
     "mongodb+srv://chimi:chimi123@cluster0.pyaff9g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -18,7 +17,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
-// Multer storage configuration
 const storage = multer.diskStorage({
   destination: "./upload/images",
   filename: (req, file, cb) => {
@@ -31,10 +29,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Serve static images
 app.use("/images", express.static("upload/images"));
 
-// Endpoint to handle single file upload
 app.post("/upload", upload.single("product"), (req, res) => {
   const imageUrl = `http://localhost:${port}/images/${req.file.filename}`;
   res.json({
@@ -43,12 +39,10 @@ app.post("/upload", upload.single("product"), (req, res) => {
   });
 });
 
-// Default route
 app.get("/", (req, res) => {
   res.send("Express App is running");
 });
 
-// Product schema
 const Product = mongoose.model("Product", {
   id: {
     type: Number,
@@ -59,7 +53,7 @@ const Product = mongoose.model("Product", {
     required: true,
   },
   image: {
-    type: String, // Single image URL
+    type: String,
     required: true,
   },
   category: {
@@ -84,7 +78,6 @@ const Product = mongoose.model("Product", {
   },
 });
 
-// Add new product
 app.post("/addproduct", async (req, res) => {
   try {
     let products = await Product.find({});
@@ -93,7 +86,7 @@ app.post("/addproduct", async (req, res) => {
     const product = new Product({
       id: id,
       name: req.body.name,
-      image: req.body.image, // Single image URL
+      image: req.body.image,
       category: req.body.category,
       new_price: req.body.new_price,
       old_price: req.body.old_price,
@@ -111,7 +104,6 @@ app.post("/addproduct", async (req, res) => {
   }
 });
 
-// Get all products
 app.get("/allproducts", async (req, res) => {
   try {
     const products = await Product.find({});
@@ -128,7 +120,6 @@ app.get("/allproducts", async (req, res) => {
   }
 });
 
-// Delete product endpoint
 app.post("/removeproduct", async (req, res) => {
   try {
     const result = await Product.findOneAndDelete({ id: req.body.id });
@@ -152,7 +143,6 @@ app.post("/removeproduct", async (req, res) => {
   }
 });
 
-// User schema
 const User = mongoose.model("User", {
   name: {
     type: String,
@@ -172,7 +162,6 @@ const User = mongoose.model("User", {
   },
 });
 
-// User signup endpoint
 app.post("/signup", async (req, res) => {
   try {
     let check = await User.findOne({ email: req.body.email });
@@ -209,7 +198,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// User login endpoint
 app.post("/login", async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) {
@@ -230,7 +218,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Fetch new collections from the database
 app.get("/newcollections", async (req, res) => {
   let products = await Product.find({});
   let newcollection = products.slice(1).slice(-8);
@@ -238,7 +225,6 @@ app.get("/newcollections", async (req, res) => {
   res.send(newcollection);
 });
 
-// Fetch popular products from the database
 app.get("/popularproducts", async (req, res) => {
   let products = await Product.find({ category: "Tenda" });
   let popularproducts = products.slice(0, 4);
@@ -246,7 +232,6 @@ app.get("/popularproducts", async (req, res) => {
   res.send(popularproducts);
 });
 
-// Middleware to authenticate user
 const fetchUser = async (req, res, next) => {
   const token = req.header("auth-token");
   if (!token) {
@@ -287,7 +272,6 @@ app.post("/removefromcart", fetchUser, async (req, res) => {
   res.send("Removed");
 });
 
-// Get cart
 app.post("/getcart", fetchUser, async (req, res) => {
   try {
     let userData = await User.findOne({ _id: req.user.id });
