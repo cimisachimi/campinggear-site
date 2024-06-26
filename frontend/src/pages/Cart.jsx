@@ -54,11 +54,13 @@ const Cart = () => {
   const handleCheckout = () => {
     placeOrder(cartItems)
       .then((data) => {
-        console.log("Transaction created:", data);
+        console.log("Order created:", data);
         setAddressForm({ fullAddress: "" });
+        alert("Order placed successfully!");
       })
       .catch((error) => {
-        console.error("Error creating transaction:", error);
+        console.error("Error creating order:", error);
+        alert("Failed to place order. Please try again.");
       });
   };
 
@@ -153,35 +155,32 @@ const Cart = () => {
                 name="fullAddress"
                 value={addressForm.fullAddress}
                 onChange={handleInputChange}
-                rows={4}
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="w-full mt-1 p-2 border rounded"
+                rows="3"
                 required
-              />
+              ></textarea>
             </div>
           </form>
-          <hr className="my-4" />
-          <div className="mb-2 flex justify-between">
-            <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">{formatCurrency(subtotal)}</p>
-          </div>
-          <div className="flex justify-between">
-            <p className="text-gray-700">Shipping</p>
-            <p className="text-gray-700">{formatCurrency(shipping)}</p>
-          </div>
-          <hr className="my-4" />
-          <div className="flex justify-between">
-            <p className="text-lg font-bold">Total</p>
-            <div className="">
-              <p className="mb-1 text-lg font-bold">{formatCurrency(total)}</p>
-              <p className="text-sm text-gray-700">including VAT</p>
+          <div className="mt-6 border-t border-gray-200 pt-6">
+            <div className="flex justify-between">
+              <p className="text-lg font-bold">Subtotal</p>
+              <p className="text-lg font-bold">{formatCurrency(subtotal)}</p>
             </div>
+            <div className="flex justify-between">
+              <p className="text-sm">Shipping</p>
+              <p className="text-sm">{formatCurrency(shipping)}</p>
+            </div>
+            <div className="mt-6 flex justify-between">
+              <p className="text-lg font-bold">Total</p>
+              <p className="text-lg font-bold">{formatCurrency(total)}</p>
+            </div>
+            <button
+              onClick={handleCheckout}
+              className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+            >
+              Place Order
+            </button>
           </div>
-          <button
-            onClick={handleCheckout}
-            className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
-          >
-            Check out
-          </button>
         </div>
       </div>
     </div>
