@@ -24,7 +24,7 @@ const Header = ({ cartItemCount }) => {
   };
 
   return (
-    <header className="w-full text-gray-700 bg-creamBase border-t border-gray-100 shadow-sm body-font border-b-darkCream">
+    <header className="w-full text-gray-700  border-t border-gray-100 shadow-sm body-font  bg-lightCream1">
       <div className="container flex items-center justify-between p-5 mx-auto">
         {/* Left Section - Menu Links */}
         <div className="flex items-center space-x-4 flex-1">

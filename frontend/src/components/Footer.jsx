@@ -3,7 +3,7 @@ import logo from "../assets/logo/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="w-full text-gray-700 bg-creamBase body-font">
+    <footer className="w-full text-gray-700  bg-lightCream1 body-font">
       <div className="container flex flex-col flex-wrap px-5 py-24 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
         <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
           <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
@@ -117,7 +117,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="bg-lightCream">
+      <div className="bg-lightCream2">
         <div className="container px-5 py-4 mx-auto">
           <p className="text-sm text-gray-700 capitalize xl:text-center">
             © 2024 All rights reserved
