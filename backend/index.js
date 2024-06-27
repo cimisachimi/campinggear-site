@@ -172,7 +172,7 @@ app.post("/signup", async (req, res) => {
     }
 
     let cart = {};
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < 60; i++) {
       cart[i] = 0;
     }
 
@@ -352,6 +352,46 @@ app.get("/orders", fetchUser, async (req, res) => {
   } catch (error) {
     console.error("Error fetching orders:", error);
     res.status(500).json({ success: false, message: "Failed to fetch orders" });
+  }
+});
+
+// GET route to fetch all orders for admin
+app.get("/admin/orders", async (req, res) => {
+  try {
+    const orders = await Order.find({})
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching all orders:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch orders" });
+  }
+});
+
+// UPDATE route to update order status for admin
+app.put("/admin/order/:id", async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const { status } = req.body;
+
+    const order = await Order.findByIdAndUpdate(
+      orderId,
+      { status: status },
+      { new: true }
+    ).populate("user", "name email");
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    res.json({ success: true, order });
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update order status" });
   }
 });
 
