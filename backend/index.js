@@ -161,7 +161,6 @@ const User = mongoose.model("User", {
     default: Date.now,
   },
 });
-
 app.post("/signup", async (req, res) => {
   try {
     let check = await User.findOne({ email: req.body.email });
@@ -188,6 +187,7 @@ app.post("/signup", async (req, res) => {
     const data = {
       user: {
         id: user.id,
+        name: user.name, // Include username in the payload
       },
     };
     const token = jwt.sign(data, "secret_ecom");
@@ -206,6 +206,7 @@ app.post("/login", async (req, res) => {
       const data = {
         user: {
           id: user.id,
+          name: user.name, // Include username in the payload
         },
       };
       const token = jwt.sign(data, "secret_ecom");

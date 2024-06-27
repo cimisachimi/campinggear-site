@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaClipboardList } from "react-icons/fa"; // Import order icon
 import logo from "../assets/logo/logo.png";
 import profilePicture from "../assets/profile.png"; // Ensure this path is correct
 
@@ -24,19 +24,16 @@ const Header = ({ cartItemCount }) => {
   };
 
   return (
-    <header className="w-full text-gray-700  border-t border-gray-100 shadow-sm body-font  bg-lightCream1">
+    <header className="w-full text-gray-700 border-t border-gray-100 shadow-sm body-font bg-lightCream1">
       <div className="container flex items-center justify-between p-5 mx-auto">
-        {/* Left Section - Menu Links */}
+        {/* Left Section - Profile and Username */}
         <div className="flex items-center space-x-4 flex-1">
-          <Link to="/" className="font-medium hover:text-gray-900">
-            Home
-          </Link>
-          <Link to="/aboutPage" className="font-medium hover:text-gray-900">
-            About
-          </Link>
-          <Link to="/contact" className="font-medium hover:text-gray-900">
-            Contact
-          </Link>
+          <img
+            src={profilePicture}
+            alt="Profile Avatar"
+            className="w-10 h-10 rounded-full"
+          />
+          <span className="font-medium text-gray-900">{username}</span>
         </div>
 
         {/* Center Section - Logo */}
@@ -50,21 +47,11 @@ const Header = ({ cartItemCount }) => {
           </Link>
         </div>
 
-        {/* Right Section - Profile, Logout, and Cart */}
+        {/* Right Section - Logout, Orders, and Cart */}
         <div className="flex items-center space-x-4 flex-1 justify-end">
           {localStorage.getItem("auth-token") ? (
-            // If logged in, show profile pic, username, logout button
+            // If logged in, show logout button
             <>
-              {/* Profile Avatar and Name */}
-              <div className="flex items-center space-x-4">
-                <img
-                  src={profilePicture}
-                  alt="Profile Avatar"
-                  className="w-10 h-10 rounded-full"
-                />
-                <span className="font-medium text-gray-900">{username}</span>
-              </div>
-
               {/* Logout button */}
               <div className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
                 <button
@@ -90,8 +77,16 @@ const Header = ({ cartItemCount }) => {
             </div>
           )}
 
-          {/* Shopping Cart */}
-          <div className="relative ml-4">
+          {/* Shopping Cart and Orders */}
+          <div className="relative flex items-center space-x-4 ml-4">
+            {/* Order Icon */}
+            <Link to="/order">
+              <button className="text-gray-800 hover:text-gray-800 focus:outline-none">
+                <FaClipboardList className="h-6 w-6" />
+              </button>
+            </Link>
+
+            {/* Shopping Cart */}
             <Link to="/Cart">
               <button className="text-gray-800 hover:text-gray-800 focus:outline-none">
                 <FaShoppingCart className="h-6 w-6" />

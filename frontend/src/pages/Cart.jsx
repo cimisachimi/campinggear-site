@@ -51,15 +51,32 @@ const Cart = () => {
   const shipping = 50000;
   const total = subtotal + shipping;
 
+  const simulatePayment = () => {
+    return new Promise((resolve, reject) => {
+      const isSuccess = Math.random() > 0.2; // 80% chance of success
+      setTimeout(() => {
+        if (isSuccess) {
+          resolve("Payment successful");
+        } else {
+          reject("Payment failed");
+        }
+      }, 2000); // Simulate a delay for the payment process
+    });
+  };
+
   const handleCheckout = () => {
-    placeOrder(cartItems)
+    simulatePayment()
+      .then((message) => {
+        console.log(message);
+        return placeOrder(cartItems);
+      })
       .then((data) => {
         console.log("Order created:", data);
         setAddressForm({ fullAddress: "" });
         alert("Order placed successfully!");
       })
       .catch((error) => {
-        console.error("Error creating order:", error);
+        console.error(error);
         alert("Failed to place order. Please try again.");
       });
   };
