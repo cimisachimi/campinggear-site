@@ -1,19 +1,17 @@
 import React from "react";
-import Breadcrumb from "../components/Breadcrumb";
-import ProductList from "../components/Productlist";
+
 import Popular from "../components/Popular";
 import Hero from "../components/Hero";
 import Offer from "../components/Offer";
+import ProductList from "../components/Productlist";
 
 const Home = () => {
   return (
     <div className="bg-creamBase">
-      <h1>This is Home Page</h1>
       <Hero />
       <Popular />
       <Offer />
       <ProductList />
-      
     </div>
   );
 };

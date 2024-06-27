@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Breadcrumb from "./Breadcrumb";
 
 const Navbar = () => {
   return (
@@ -71,7 +70,6 @@ const Navbar = () => {
           </NavLink>
         </div>
       </nav>
-      <Breadcrumb />
     </div>
   );
 };

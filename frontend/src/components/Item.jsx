@@ -23,10 +23,10 @@ const Item = ({ id, name, image, old_price, new_price }) => {
         </Link>
       </div>
 
-      <div className="bg-lightCream1 p-4 text-slate-100 flex-grow flex flex-col justify-between md:text-sm sm:text-xs">
-        <h2 className="text-lg font-semibold mb-2">{name}</h2>
+      <div className="bg-lightCream1 p-4  flex-grow flex flex-col justify-between md:text-sm sm:text-xs">
+        <h2 className="text-lg text-darkCream font-semibold mb-2">{name}</h2>
         <div className="flex items-center justify-between mb-4  md:space-x-1">
-          <span className="text-xl font-bold md:text-sm sm:text-xs">
+          <span className="text-xl text-darkGreen font-bold md:text-sm sm:text-xs">
             {formatCurrency(new_price)}
           </span>
           {old_price && (

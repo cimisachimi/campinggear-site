@@ -233,6 +233,13 @@ app.get("/popularproducts", async (req, res) => {
   res.send(popularproducts);
 });
 
+app.get("/relatedproducts", async (req, res) => {
+  let products = await Product.find({}); // You can adjust the category as needed
+  let relatedProducts = products.slice(1).slice(-8);
+
+  res.send(relatedProducts);
+});
+
 const fetchUser = async (req, res, next) => {
   const token = req.header("auth-token");
   if (!token) {

@@ -14,7 +14,6 @@ export default {
         darkGreen: "hsl(82, 18%, 12%)",
         lightCream2: "hsl(31, 34%, 49%)",
         lightCream1: "hsl(33.43, 56.45%, 75.69%)",
-
       },
       fontFamily: {
         nunito: "'Nunito', sans-serif",

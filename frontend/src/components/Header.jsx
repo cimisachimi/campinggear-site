@@ -28,12 +28,9 @@ const Header = ({ cartItemCount }) => {
       <div className="container flex items-center justify-between p-5 mx-auto">
         {/* Left Section - Profile and Username */}
         <div className="flex items-center space-x-4 flex-1">
-          <img
-            src={profilePicture}
-            alt="Profile Avatar"
-            className="w-10 h-10 rounded-full"
-          />
-          <span className="font-medium text-gray-900">{username}</span>
+          <span className="font-medium text-gray-900">
+            Selamat datang {username}
+          </span>
         </div>
 
         {/* Center Section - Logo */}
@@ -53,14 +50,12 @@ const Header = ({ cartItemCount }) => {
             // If logged in, show logout button
             <>
               {/* Logout button */}
-              <div className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease">
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
-                >
-                  Logout
-                </button>
-              </div>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+              >
+                Logout
+              </button>
             </>
           ) : (
             // If not logged in, show login and signup buttons

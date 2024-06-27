@@ -12,7 +12,7 @@ const Category = ({ category, banner }) => {
     <section className="max_padd_countainer p-12 xl:py-28 bg-creamBase">
       <div>
         <div>
-          <img src={banner} alt="" className="block my-7 mx-auto " />
+          <img src={banner} alt="" className="block my-7 mx-auto rounded-md " />
         </div>
         <div>
           <h5>

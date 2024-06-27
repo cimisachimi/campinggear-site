@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
-import ProductHd from "../components/ProductHd";
+
 import ProductDisplay from "../components/ProductDisplay";
 import RelatedProducts from "../components/RelatedProducts";
 

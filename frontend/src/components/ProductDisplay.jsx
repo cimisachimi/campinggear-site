@@ -51,19 +51,7 @@ const ProductDisplay = ({ product }) => {
             </p>
           </div>
 
-          <div className="space-y-2 bold-16">
-            <h4>Select Size</h4>
-            <div className="flex gap-x-2">
-              {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <div
-                  key={size}
-                  className="ring-2 ring-slate-600 h-10 w-10 cursor-pointer flexCenter text-slate-800 hover:bg-black hover:text-slate-200"
-                >
-                  {size}
-                </div>
-              ))}
-            </div>
-          </div>
+          <div className="space-y-2 bold-16"></div>
 
           <div className="flex flex-col gap-y-2 mx-2">
             {/* cart button */}
@@ -71,9 +59,6 @@ const ProductDisplay = ({ product }) => {
               <button onClick={() => addToCart(product.id)}>ADD TO CART</button>
             </div>
             {/* buy button */}
-            <div className="btn_dark_outline !rounded-none uppercase regular-14 tracking-widest text-center">
-              <button>BUY NOW</button>
-            </div>
           </div>
 
           <div className="mb-6">
