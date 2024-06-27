@@ -21,7 +21,7 @@ export default {
       },
       backgroundImage: {
         Hero: "url('assets/banner1.jpg')",
-        Heri: "url('assets/banner2.jpg')",
+        Heri: "url('assets/banner2.png')",
         cover: "url('assets/bannermens.jpg)",
       },
     },

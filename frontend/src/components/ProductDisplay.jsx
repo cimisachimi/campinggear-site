@@ -13,7 +13,7 @@ const ProductDisplay = ({ product }) => {
 
   return (
     <section>
-      <div className="flex flex-col xl:flex-row gap-x-8 gap-14 mt-5 sm:m-4 md:m-4 xl:m-4 xs:m-4 rounded-lg">
+      <div className="flex flex-col xl:flex-row gap-x-8 gap-14 mt-5 sm:m-4 md:m-4 xl:m-4 xs:m-4 rounded-lg max_container">
         <div className="flex flex-col flex-1">
           <div className="flex-grow flex items-stretch">
             <img

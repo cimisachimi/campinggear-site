@@ -5,7 +5,7 @@ const Offer = () => {
     <div>
       <section
         className="  
-     bg-Hero w-full bg-center px-4 py-24 mt-16"
+     bg-Heri w-full bg-center px-4 py-24 mt-16 bg-cover rounded-md"
       >
         <div className=" max_padd_container text-slate-200">
           <h2 className=" h2">Winter sale Disc 40 %</h2>
