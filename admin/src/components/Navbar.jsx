@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/Logo.png";
-import profilePic from "../assets/profile.png";
+import profilePic from "../assets/profilePicture.jpeg";
 
 const Navbar = () => {
   return (
@@ -24,7 +24,7 @@ const Navbar = () => {
 
         {/* Right Section - Profile Picture, Name, and Icons */}
         <div className="flex items-center justify-end flex-grow md:flex-grow-0 space-x-4">
-          <span className="font-medium text-gray-900">Chimi</span>
+          <span className="font-medium text-gray-900">Administrator</span>
           <img
             src={profilePic}
             alt="Profile"

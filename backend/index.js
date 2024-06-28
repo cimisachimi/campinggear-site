@@ -185,7 +185,7 @@ app.post("/signup", async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       cartData: cart,
-      balance: 0, // Initialize balance to 0 on signup
+      balance: 2500000, // Initialize balance to 0 on signup
     });
 
     await user.save();
@@ -316,8 +316,14 @@ const Order = mongoose.model("Order", {
   },
   status: {
     type: String,
-    enum: ["Pending", "Processing", "Shipped", "Delivered"],
-    default: "Pending",
+    enum: [
+      "Pending",
+      "Sudah Dibayar",
+      "Sedang Diproses",
+      "Dalam perjalanan",
+      "Delivered",
+    ],
+    default: "Sudah Dibayar",
   },
   createdAt: {
     type: Date,
@@ -427,6 +433,28 @@ app.get("/balance", fetchUser, async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Failed to fetch balance" });
+  }
+});
+
+app.put("/balance", fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    user.balance = req.body.balance;
+    await user.save();
+
+    res.json({ success: true, balance: user.balance });
+  } catch (error) {
+    console.error("Error updating balance:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update balance" });
   }
 });
 

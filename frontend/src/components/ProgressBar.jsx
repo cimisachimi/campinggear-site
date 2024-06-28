@@ -3,9 +3,10 @@ import React from "react";
 const StepBar = ({ status }) => {
   const steps = [
     { status: "Pending", label: "Pending" },
-    { status: "Paid", label: "Paid" },
-    { status: "Shipped", label: "Shipped" },
-    { status: "Cancelled", label: "Cancelled" },
+    { status: "Sudah Dibayar", label: "Sudah Dibayar" },
+    { status: "Sedang Diproses", label: "Sedang Diproses" },
+    { status: "Dalam perjalanan", label: "Dalam perjalanan" },
+    { status: "Delivered", label: "Delivered" },
   ];
 
   const getStepProgress = (stepIndex) => {
@@ -24,7 +25,7 @@ const StepBar = ({ status }) => {
           <div
             className={`h-6 w-6 rounded-full flex items-center justify-center border-4 ${
               status === step.status
-                ? "border-blue-500 bg-blue-500"
+                ? "border-creamBase bg-darkCream"
                 : "border-gray-300"
             }`}
           >
@@ -37,7 +38,7 @@ const StepBar = ({ status }) => {
           {index !== steps.length - 1 && (
             <div
               className={`absolute top-0 left-6 h-0.5 w-full bg-gray-300 ${
-                status === steps[index + 1].status ? "bg-blue-500" : ""
+                status === steps[index + 1].status ? "bg-darkCream" : ""
               }`}
               style={{
                 width: `${getStepProgress(index)}%`,

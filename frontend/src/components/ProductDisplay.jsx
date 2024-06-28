@@ -26,26 +26,26 @@ const ProductDisplay = ({ product }) => {
 
         <div className="flex flex-col gap-y-6 flex-1">
           <div className="items-center">
-            <h3 className="h3">{product.name}</h3>
-            <div className="bold-16 text-2xl text-red-600 mt-2">
+            <h3 className="text-3xl font-bold">{product.name}</h3>
+            <div className="bold-16 text-3xl text-red-600 mt-2">
               {formatCurrency(product.new_price)}
             </div>
           </div>
 
           <div>
-            <p className="text-gray-800 font-semibold space-x-2">
+            <p className="text-gray-800 font-semibold space-x-2 text-lg">
               <span>Availability:</span>
               <span className="text-green-600">In Stock</span>
             </p>
-            <p className="space-x-2">
+            <p className="space-x-2 text-lg">
               <span className="text-gray-800 font-semibold">Brand:</span>
               <span className="text-gray-600">Eiger</span>
             </p>
-            <p className="space-x-2">
+            <p className="space-x-2 text-lg">
               <span className="text-gray-800 font-semibold">Category:</span>
               <span className="text-gray-600">{product.category}</span>
             </p>
-            <p className="space-x-2">
+            <p className="space-x-2 text-lg">
               <span className="text-gray-800 font-semibold">SKU:</span>
               <span className="text-gray-600">BE45VGRT</span>
             </p>
@@ -62,8 +62,8 @@ const ProductDisplay = ({ product }) => {
           </div>
 
           <div className="mb-6">
-            <h2 className="text-xl font-medium mt-6">Description</h2>
-            <p className="text-gray-600 mt-2">
+            <h2 className="text-2xl font-medium mt-6">Description</h2>
+            <p className="text-gray-600 mt-2 text-lg">
               Setelah seharian menjelajahi alam, dapatkan istirahat yang nyaman
               dengan tenda Novus Guardian 8P. Luas, berdaya tahan kuat, dan
               memiliki ketahanan air yang baik, tenda berkapasitas delapan orang

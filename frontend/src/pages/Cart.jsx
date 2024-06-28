@@ -18,6 +18,7 @@ const Cart = () => {
     placeOrder,
     setFullAddress,
     balance,
+    updateBalance,
   } = useContext(ShopContext);
 
   const [addressForm, setAddressForm] = useState({
@@ -77,7 +78,13 @@ const Cart = () => {
   const handleCheckout = () => {
     if (!isAddressConfirmed) {
       setAlertType("error");
-      setAlertMessage("Please confirm that the address is correct.");
+      setAlertMessage("Konfimasi alamat anda apakah sudah benar atau belum");
+      return;
+    }
+
+    if (total > balance) {
+      setAlertType("error");
+      setAlertMessage("Saldo anda tidak mencukupi.");
       return;
     }
 
@@ -92,6 +99,10 @@ const Cart = () => {
         setIsAddressConfirmed(false);
         setAlertType("success");
         setAlertMessage("Order placed successfully!");
+
+        // Deduct the balance after a successful order
+        const newBalance = balance - total;
+        updateBalance(newBalance);
       })
       .catch((error) => {
         console.error(error);
@@ -235,9 +246,13 @@ const Cart = () => {
               <p className="text-lg font-bold">Total</p>
               <p className="text-lg font-bold">{formatCurrency(total)}</p>
             </div>
+            <div className="mt-6 flex justify-between">
+              <p className="text-lg font-bold">Balance</p>
+              <p className="text-lg font-bold">{formatCurrency(balance)}</p>
+            </div>
             <button
               onClick={handleCheckout}
-              className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+              className="mt-6 w-full rounded-md bg-creamBase py-1.5 font-medium text-black hover:bg-darkCream"
             >
               Place Order
             </button>

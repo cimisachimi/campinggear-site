@@ -14,9 +14,12 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 // Assets
-import bannerswomens from "./assets/bannerwomens.png";
-import bannermens from "./assets/bannermens.jpg";
-import bannerkids from "./assets/bannerkids.png";
+import bannertenda from "./assets/bannertenda.jpg";
+import bannertas from "./assets/bannertas.jpg";
+import bannermaska from "./assets/bannermasak.jpg";
+import banneroutdoor from "./assets/banneroutdoor.jpg";
+import banneraccess from "./assets/bannersacces.jpg";
+
 import SignUp from "./pages/Signup.jsx";
 import Transactions from "./pages/Transactions.jsx";
 
@@ -33,19 +36,23 @@ export default function App() {
           {/* Categories */}
           <Route
             path="/tenda"
-            element={<Category category={"Tenda"} banner={bannermens} />}
+            element={<Category category={"Tenda"} banner={bannertenda} />}
           />
           <Route
             path="/tas"
-            element={<Category category={"Tas"} banner={bannerswomens} />}
+            element={<Category category={"Tas"} banner={bannertas} />}
           />
           <Route
             path="/memasak"
-            element={<Category category={"Memasak"} banner={bannerkids} />}
+            element={<Category category={"Memasak"} banner={bannermaska} />}
           />
           <Route
             path="/aksesoris"
-            element={<Category category={"Aksesories"} banner={bannerkids} />}
+            element={<Category category={"Aksesories"} banner={banneraccess} />}
+          />
+          <Route
+            path="/outdoor"
+            element={<Category category={"Outdoor"} banner={banneroutdoor} />}
           />
           {/* Product */}
           <Route path="/product" element={<Product />} />

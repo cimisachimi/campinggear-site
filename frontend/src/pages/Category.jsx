@@ -14,12 +14,7 @@ const Category = ({ category, banner }) => {
         <div>
           <img src={banner} alt="" className="block my-7 mx-auto rounded-md " />
         </div>
-        <div>
-          <h5>
-            <span> showing 1-12 </span>out of 36 products{" "}
-          </h5>
-        </div>
-        sort by <MdOutlineKeyboardArrowDown />
+
         <div></div>
         {/* container */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
