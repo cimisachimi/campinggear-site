@@ -160,7 +160,12 @@ const User = mongoose.model("User", {
     type: Date,
     default: Date.now,
   },
+  balance: {
+    type: Number,
+    default: 0, // Set default balance to 0
+  },
 });
+
 app.post("/signup", async (req, res) => {
   try {
     let check = await User.findOne({ email: req.body.email });
@@ -180,6 +185,7 @@ app.post("/signup", async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       cartData: cart,
+      balance: 2500000, // Initialize balance to 0 on signup
     });
 
     await user.save();
@@ -187,7 +193,8 @@ app.post("/signup", async (req, res) => {
     const data = {
       user: {
         id: user.id,
-        name: user.name, // Include username in the payload
+        name: user.name,
+        balance: user.balance, // Include balance in the payload
       },
     };
     const token = jwt.sign(data, "secret_ecom");
@@ -206,7 +213,8 @@ app.post("/login", async (req, res) => {
       const data = {
         user: {
           id: user.id,
-          name: user.name, // Include username in the payload
+          name: user.name,
+          balance: user.balance, // Include balance in the payload
         },
       };
       const token = jwt.sign(data, "secret_ecom");
@@ -308,8 +316,14 @@ const Order = mongoose.model("Order", {
   },
   status: {
     type: String,
-    enum: ["Pending", "Processing", "Shipped", "Delivered"],
-    default: "Pending",
+    enum: [
+      "Pending",
+      "Sudah Dibayar",
+      "Sedang Diproses",
+      "Dalam perjalanan",
+      "Delivered",
+    ],
+    default: "Sudah Dibayar",
   },
   createdAt: {
     type: Date,
@@ -400,6 +414,47 @@ app.put("/admin/order/:id", async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Failed to update order status" });
+  }
+});
+
+app.get("/balance", fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, balance: user.balance });
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to fetch balance" });
+  }
+});
+
+app.put("/balance", fetchUser, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    user.balance = req.body.balance;
+    await user.save();
+
+    res.json({ success: true, balance: user.balance });
+  } catch (error) {
+    console.error("Error updating balance:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update balance" });
   }
 });
 

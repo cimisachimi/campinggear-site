@@ -2,20 +2,40 @@ import React, { useEffect, useState } from "react";
 
 const ListOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
-  const fetchOrders = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/admin/orders");
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.orders);
-      } else {
-        console.error("Failed to fetch orders:", data.message);
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/admin/orders");
+        const data = await response.json();
+        if (data.success) {
+          setOrders(data.orders);
+        } else {
+          console.error("Failed to fetch orders:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
       }
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  };
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/allproducts");
+        const data = await response.json();
+        if (data.success) {
+          setAllProducts(data.products);
+        } else {
+          console.error("Failed to fetch products:", data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchOrders();
+    fetchProducts();
+  }, []);
 
   const updateOrderStatus = async (id, status) => {
     try {
@@ -41,14 +61,15 @@ const ListOrders = () => {
     }
   };
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
   const filterCartData = (cartData) => {
     return Object.entries(cartData)
       .filter(([_, value]) => value > 0)
       .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  };
+
+  const getProductInfo = (productId) => {
+    const product = allProducts.find((product) => product.id === productId);
+    return product || { name: "Unknown Product", new_price: "0", image: "" }; // Default if product not found
   };
 
   return (
@@ -82,15 +103,32 @@ const ListOrders = () => {
                     className="bg-gray-200 border rounded p-2"
                   >
                     <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Shipped">Shipped</option>
+                    <option value="Sudah Dibayar">Sudah Dibayar</option>
+                    <option value="Sedang Diproses">Sedang Diproses</option>
+                    <option value="Dalam perjalanan">Dalam perjalanan</option>
                     <option value="Delivered">Delivered</option>
                   </select>
                 </td>
                 <td className="p-4">
-                  <pre>
-                    {JSON.stringify(filterCartData(order.cartData), null, 2)}
-                  </pre>
+                  <ul>
+                    {Object.entries(filterCartData(order.cartData)).map(
+                      ([productId, quantity]) => (
+                        <li key={productId}>
+                          <div className="flex items-center">
+                            <img
+                              src={getProductInfo(parseInt(productId)).image}
+                              alt={getProductInfo(parseInt(productId)).name}
+                              className="w-12 h-12 object-cover rounded-full mr-4"
+                            />
+                            <div>
+                              <p>{getProductInfo(parseInt(productId)).name}</p>
+                              <p>Quantity: {quantity}</p>
+                            </div>
+                          </div>
+                        </li>
+                      )
+                    )}
+                  </ul>
                 </td>
               </tr>
             ))}

@@ -15,6 +15,7 @@ const ShopContextProvider = (props) => {
   const [all_products, setAllProducts] = useState([]);
   const [fullAddress, setFullAddress] = useState("");
   const [orders, setOrders] = useState([]);
+  const [balance, setBalance] = useState(0); // New state for balance
 
   useEffect(() => {
     fetch("http://localhost:4000/allproducts")
@@ -47,6 +48,18 @@ const ShopContextProvider = (props) => {
         .then((response) => response.json())
         .then((data) => setOrders(data.orders))
         .catch((err) => console.error("Error fetching orders:", err));
+
+      fetch("http://localhost:4000/balance", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "auth-token": token,
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => setBalance(data.balance))
+        .catch((err) => console.error("Error fetching balance:", err));
     }
   }, []);
 
@@ -170,6 +183,31 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  // New function to update balance
+  const updateBalance = async (newBalance) => {
+    try {
+      const token = localStorage.getItem("auth-token"); // Assuming you store the token in localStorage
+      const response = await fetch("http://localhost:4000/balance", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "auth-token": token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ balance: newBalance }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setBalance(newBalance);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error updating balance:", error);
+      throw error;
+    }
+  };
+
   const contextValue = {
     getTotalCartAmount,
     all_products,
@@ -181,6 +219,8 @@ const ShopContextProvider = (props) => {
     orders,
     updateOrderStatus,
     setFullAddress, // Make sure to expose setFullAddress in context
+    balance, // Expose balance in context
+    updateBalance, // Expose updateBalance in context
   };
 
   return (

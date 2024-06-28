@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
 
 * {
   margin: 0;
@@ -75,6 +79,10 @@
   }
 
   .max-container {
+    @apply mx-auto max-w-[1440px];
+  }
+
+  .max-containerr {
     @apply mx-auto max-w-[1440px];
   }
 

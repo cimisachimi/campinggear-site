@@ -6,10 +6,12 @@ const Footer = () => {
     <footer className="w-full text-gray-700 bg-lightCream1 body-font">
       <div className="container flex flex-wrap px-5 py-24 mx-auto items-start justify-between">
         <div className="w-full lg:w-1/3 text-center md:text-left mb-10 md:mb-0 justify-center">
-        <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start pr-0.5">
+          <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start pr-0.5">
             <img src={logo} alt="Logo" className="w-3/6" />
           </a>
-          <p className="mt-2 text-sm text-gray-500">Design, Code and Ship!</p>
+          <p className="mt-2 text-sm text-gray-500">
+            Your essentials camping gear need!
+          </p>
           <div className="mt-4">
             <span className="inline-flex justify-center sm:justify-start">
               <a className="text-gray-600 cursor-pointer hover:text-gray-700">
@@ -37,7 +39,8 @@ const Footer = () => {
                 </svg>
               </a>
               <a className="ml-3 text-gray-600 cursor-pointer hover:text-gray-700 ">
-                <svg href=""
+                <svg
+                  href=""
                   fill="none"
                   stroke="currentColor"
                   strokeLinecap="round"
@@ -69,7 +72,6 @@ const Footer = () => {
               </a>
             </span>
           </div>
-          
         </div>
         <div className="w-full lg:w-1/3 text-center md:text-left mb-10 md:mb-0">
           <h2 className="mb-3 text-sm font-medium tracking-widest text-gray-900 uppercase title-font">

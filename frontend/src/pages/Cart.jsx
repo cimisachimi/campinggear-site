@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
+import Alert from "../components/Alert"; // Adjust the path based on your file structure
 
 const Cart = () => {
   const formatCurrency = (amount) => {
@@ -16,11 +17,17 @@ const Cart = () => {
     getTotalCartAmount,
     placeOrder,
     setFullAddress,
+    balance,
+    updateBalance,
   } = useContext(ShopContext);
 
   const [addressForm, setAddressForm] = useState({
     fullAddress: "",
   });
+
+  const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +36,10 @@ const Cart = () => {
       [name]: value,
     }));
     setFullAddress(value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsAddressConfirmed(e.target.checked);
   };
 
   const updateQuantity = (itemId, increment) => {
@@ -65,6 +76,18 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
+    if (!isAddressConfirmed) {
+      setAlertType("error");
+      setAlertMessage("Konfimasi alamat anda apakah sudah benar atau belum");
+      return;
+    }
+
+    if (total > balance) {
+      setAlertType("error");
+      setAlertMessage("Saldo anda tidak mencukupi.");
+      return;
+    }
+
     simulatePayment()
       .then((message) => {
         console.log(message);
@@ -73,17 +96,36 @@ const Cart = () => {
       .then((data) => {
         console.log("Order created:", data);
         setAddressForm({ fullAddress: "" });
-        alert("Order placed successfully!");
+        setIsAddressConfirmed(false);
+        setAlertType("success");
+        setAlertMessage("Order placed successfully!");
+
+        // Deduct the balance after a successful order
+        const newBalance = balance - total;
+        updateBalance(newBalance);
       })
       .catch((error) => {
         console.error(error);
-        alert("Failed to place order. Please try again.");
+        setAlertType("error");
+        setAlertMessage("Failed to place order. Please try again.");
       });
+  };
+
+  const handleAlertClose = () => {
+    setAlertMessage("");
+    setAlertType("");
   };
 
   return (
     <div className="h-screen bg-creamBase pt-20">
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+      {alertMessage && (
+        <Alert
+          message={alertMessage}
+          type={alertType}
+          onClose={handleAlertClose}
+        />
+      )}
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
           {Object.keys(cartItems).map((itemId) => {
@@ -177,6 +219,19 @@ const Cart = () => {
                 required
               ></textarea>
             </div>
+            <div className="mb-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={isAddressConfirmed}
+                  onChange={handleCheckboxChange}
+                  className="form-checkbox"
+                />
+                <span className="ml-2 text-sm text-gray-700">
+                  Alamat saya sudah benar
+                </span>
+              </label>
+            </div>
           </form>
           <div className="mt-6 border-t border-gray-200 pt-6">
             <div className="flex justify-between">
@@ -191,9 +246,13 @@ const Cart = () => {
               <p className="text-lg font-bold">Total</p>
               <p className="text-lg font-bold">{formatCurrency(total)}</p>
             </div>
+            <div className="mt-6 flex justify-between">
+              <p className="text-lg font-bold">Balance</p>
+              <p className="text-lg font-bold">{formatCurrency(balance)}</p>
+            </div>
             <button
               onClick={handleCheckout}
-              className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
+              className="mt-6 w-full rounded-md bg-creamBase py-1.5 font-medium text-black hover:bg-darkCream"
             >
               Place Order
             </button>

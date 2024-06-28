@@ -17,6 +17,8 @@ export default {
       },
       fontFamily: {
         nunito: "'Nunito', sans-serif",
+         'ultra': ['Ultra', 'serif']
+        
       },
       backgroundImage: {
         Hero: "url('assets/banner1.jpg')",
