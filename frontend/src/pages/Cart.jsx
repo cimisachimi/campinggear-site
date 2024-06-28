@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
+import Alert from "../components/Alert"; // Adjust the path based on your file structure
 
 const Cart = () => {
   const formatCurrency = (amount) => {
@@ -16,11 +17,16 @@ const Cart = () => {
     getTotalCartAmount,
     placeOrder,
     setFullAddress,
+    balance,
   } = useContext(ShopContext);
 
   const [addressForm, setAddressForm] = useState({
     fullAddress: "",
   });
+
+  const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +35,10 @@ const Cart = () => {
       [name]: value,
     }));
     setFullAddress(value);
+  };
+
+  const handleCheckboxChange = (e) => {
+    setIsAddressConfirmed(e.target.checked);
   };
 
   const updateQuantity = (itemId, increment) => {
@@ -65,6 +75,12 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
+    if (!isAddressConfirmed) {
+      setAlertType("error");
+      setAlertMessage("Please confirm that the address is correct.");
+      return;
+    }
+
     simulatePayment()
       .then((message) => {
         console.log(message);
@@ -73,17 +89,32 @@ const Cart = () => {
       .then((data) => {
         console.log("Order created:", data);
         setAddressForm({ fullAddress: "" });
-        alert("Order placed successfully!");
+        setIsAddressConfirmed(false);
+        setAlertType("success");
+        setAlertMessage("Order placed successfully!");
       })
       .catch((error) => {
         console.error(error);
-        alert("Failed to place order. Please try again.");
+        setAlertType("error");
+        setAlertMessage("Failed to place order. Please try again.");
       });
+  };
+
+  const handleAlertClose = () => {
+    setAlertMessage("");
+    setAlertType("");
   };
 
   return (
     <div className="h-screen bg-creamBase pt-20">
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
+      {alertMessage && (
+        <Alert
+          message={alertMessage}
+          type={alertType}
+          onClose={handleAlertClose}
+        />
+      )}
       <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
         <div className="rounded-lg md:w-2/3">
           {Object.keys(cartItems).map((itemId) => {
@@ -176,6 +207,19 @@ const Cart = () => {
                 rows="3"
                 required
               ></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={isAddressConfirmed}
+                  onChange={handleCheckboxChange}
+                  className="form-checkbox"
+                />
+                <span className="ml-2 text-sm text-gray-700">
+                  Alamat saya sudah benar
+                </span>
+              </label>
             </div>
           </form>
           <div className="mt-6 border-t border-gray-200 pt-6">

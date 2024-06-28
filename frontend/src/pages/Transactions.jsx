@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
+import ProgressBar from "../components/ProgressBar"; // Make sure to adjust the import path
 
 const Transactions = () => {
   const [orders, setOrders] = useState([]);
@@ -7,6 +8,7 @@ const Transactions = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const { all_products } = useContext(ShopContext);
+  const shippingCost = 50000;
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -49,10 +51,11 @@ const Transactions = () => {
   };
 
   const calculateTotalCost = (cartData) => {
-    return Object.keys(cartData).reduce((total, key) => {
+    const productsCost = Object.keys(cartData).reduce((total, key) => {
       const product = getProductDetails(key);
       return product ? total + product.new_price * cartData[key] : total;
     }, 0);
+    return productsCost + shippingCost;
   };
 
   const formatDate = (dateString) => {
@@ -148,11 +151,14 @@ const Transactions = () => {
             </div>
             <div className="w-1/3 pl-6">
               <h3 className="text-xl font-semibold">Order ID: {order._id}</h3>
-              <p className="text-gray-600">Status: {order.status}</p>
+              <ProgressBar status={order.status} />
               <p className="text-gray-600">
                 Date: {formatDate(order.createdAt)}
               </p>
               <p className="text-gray-600">Address: {order.address}</p>
+              <p className="text-gray-600">
+                Shipping: {formatCurrency(shippingCost)}
+              </p>
               <p className="text-gray-600 font-bold">
                 Total Cost: {formatCurrency(calculateTotalCost(order.cartData))}
               </p>
