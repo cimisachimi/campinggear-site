@@ -3,8 +3,6 @@ import Item from "../components/Item";
 import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
 const Category = ({ category, banner }) => {
   const { all_products } = useContext(ShopContext);
 

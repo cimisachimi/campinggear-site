@@ -14,6 +14,7 @@ const Header = ({ cartItemCount }) => {
       currency: "IDR",
     }).format(amount);
   };
+
   useEffect(() => {
     const token = localStorage.getItem("auth-token");
     if (token) {
@@ -29,20 +30,14 @@ const Header = ({ cartItemCount }) => {
   };
 
   return (
-    <header className="w-full text-gray-700 border-t border-gray-100 shadow-sm body-font bg-lightCream1 ">
+    <header className="w-full text-gray-700 border-t border-gray-100 shadow-sm body-font bg-lightCream1">
       <div className="container flex items-center justify-between p-5 mx-auto xs:flex-col">
         {/* Left Section - Profile and Username */}
-        <div className="flex items-center space-x-4 flex-1 font-nunito   ">
-
-        <div className="flex items-center space-x-4 flex-1">
+        <div className="flex items-center space-x-4 flex-1 font-nunito">
           <span className="font-medium text-gray-900">
             Selamat datang {username}, Saldo Anda: {formatCurrency(balance)}
-
           </span>
-          </p>
-         
         </div>
-        
 
         {/* Center Section - Logo */}
         <div className="flex-shrink-0">
@@ -58,14 +53,12 @@ const Header = ({ cartItemCount }) => {
         {/* Right Section - Logout, Orders, and Cart */}
         <div className="flex items-center space-x-4 flex-1 justify-end">
           {localStorage.getItem("auth-token") ? (
-            <>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
-              >
-                Logout
-              </button>
-            </>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-darkCream rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease"
+            >
+              Logout
+            </button>
           ) : (
             <div className="flex items-center space-x-4">
               <Link to="/login" className="font-medium hover:text-gray-900">
@@ -88,10 +81,10 @@ const Header = ({ cartItemCount }) => {
             </Link>
 
             <Link to="/Cart">
-              <button className="text-gray-800 hover:text-gray-800 focus:outline-none">
+              <button className="text-gray-800 hover:text-gray-800 focus:outline-none relative">
                 <FaShoppingCart className="h-6 w-6" />
                 {cartItemCount > 0 && (
-                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ">
+                  <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
                     {cartItemCount}
                   </span>
                 )}
